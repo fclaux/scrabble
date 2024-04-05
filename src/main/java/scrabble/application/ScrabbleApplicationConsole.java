@@ -6,6 +6,7 @@ public class ScrabbleApplicationConsole {
 		System.out.println("---------------------------------------------------------");
 		System.out.println("--  Bienvenue dans notre magnifique jeu de scrabble !  --");
 		System.out.println("--  développé par Maxence                              --");
+		System.out.println("--  et par Dorian                                      --");
 		System.out.println("---------------------------------------------------------");
 
 	}
