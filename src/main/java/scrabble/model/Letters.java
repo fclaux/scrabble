@@ -39,9 +39,5 @@ public enum Letters {
 	}
 	
 	
-	
-	
-	
-	
 }
 
