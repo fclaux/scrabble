@@ -17,7 +17,7 @@ public class Tile {
 	}
 	
 	public String display() {
-		return "Tile" + this.tile + "value" + this.tile.getValue();
+		return "Letter :" + this.tile + " Value :" + this.tile.getValue();
 	}
 	
 		
