@@ -62,6 +62,18 @@ public class BagOfTiles {
         tiles.add(new Tile(Letters.Z));
         tiles.add(new Tile(Letters.JOKER));
     }
+    
+    public Tile drawTile() {
+        int index = random.nextInt(tiles.size());
+        return tiles.remove(index);
+    }
 
+    public boolean isEmpty() {
+        return tiles.isEmpty();
+    }
+
+    public int getRemainingTilesCount() {
+        return tiles.size();
+    }
   
 }
