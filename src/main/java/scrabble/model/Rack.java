@@ -30,5 +30,12 @@ public class Rack {
             tiles.set(index2, temp);
         }
     }
+    public void displayRack() {
+        for (Tile tile : tiles) {
+            System.out.print(tile.display() + " ");
+        }
+        System.out.println();
+    
+}
     
 }
