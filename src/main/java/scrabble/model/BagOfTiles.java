@@ -1,6 +1,7 @@
 package scrabble.model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -74,6 +75,10 @@ public class BagOfTiles {
 
     public int getRemainingTilesCount() {
         return tiles.size();
+    }
+    
+    public void shuffle() {
+    	Collections.shuffle(tiles);
     }
   
 }
