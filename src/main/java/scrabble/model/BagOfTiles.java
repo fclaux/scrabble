@@ -7,11 +7,9 @@ import java.util.Random;
 
 public class BagOfTiles {
     private List<Tile> tiles;
-    private Random random;
 
     public BagOfTiles() {
         this.tiles = new ArrayList<>();
-        this.random = new Random();
         initializeTiles();
     }
 
@@ -65,6 +63,7 @@ public class BagOfTiles {
     }
     
     public Tile drawTile() {
+    	Random random = new Random();
         int index = random.nextInt(tiles.size());
         return tiles.remove(index);
     }
