@@ -1,9 +1,9 @@
 package scrabble.model;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
 public class BagOfTiles {
     private List<Tile> tiles;
@@ -62,12 +62,25 @@ public class BagOfTiles {
         tiles.add(new Tile(Letters.JOKER));
     }
     
+    public List<Tile> getTiles() {
+		return tiles;
+	}
+    
     public Tile drawTile() {
-    	Random random = new Random();
-        int index = random.nextInt(tiles.size());
-        return tiles.remove(index);
+		if (!tiles.isEmpty()) {
+			return tiles.remove(0);
+		}
+		return null;
     }
-
+    
+    public void add(Tile tile) {
+		this.tiles.add(tile);
+	}
+	
+	public void addAll(Collection<Tile> tiles) {
+		this.tiles.addAll(tiles);
+	}
+	
     public boolean isEmpty() {
         return tiles.isEmpty();
     }
@@ -75,9 +88,16 @@ public class BagOfTiles {
     public int getRemainingTilesCount() {
         return tiles.size();
     }
-    
+  
     public void shuffle() {
     	Collections.shuffle(tiles);
     }
-  
+    
+    public String display() {
+    	StringBuilder temp = new StringBuilder();
+        for (Tile tile : tiles) {
+            temp.append(tile.display() + " ");
+        }
+        return temp.toString();
+    }
 }
