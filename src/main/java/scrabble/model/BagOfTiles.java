@@ -2,6 +2,7 @@ package scrabble.model;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 public class BagOfTiles {
@@ -88,4 +89,7 @@ public class BagOfTiles {
         return tiles.size();
     }
   
+    public void shuffle() {
+    	Collections.shuffle(tiles);
+    }
 }
