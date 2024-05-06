@@ -12,34 +12,19 @@ public class ScrabbleApplicationConsole {
 	public static final int STOP_VALUE = -1;
 	
 	public static void main(String[] args) {
-		Console.separator();
-		Console.message("|   Bienvenue dans notre magnifique jeu de scrabble !   |");
-		Console.message("|   développé par Maxence                               |");
-		Console.message("|   et par Dorian                                       |");
-		Console.message("|   et par Florian                                      |");
-		Console.separator();
+
 		
 		GameBoard gameBoard = new GameBoard();
 		BagOfTiles bagOfTiles = new BagOfTiles();
 		Player player1 = new Player("Dorian");
 		Scanner scanner = new Scanner(System.in);
 		
-		Console.title("  La grille");
 		Console.message(gameBoard.showGameBoard());
 		
-		Console.title("  On initialise le sac de jeton et on le mélange");
-		showRemainingTilesInBag(bagOfTiles);
-		Console.message(bagOfTiles.display());
-		Console.message("On mélange...");
 		bagOfTiles.shuffle();
-		Console.message(bagOfTiles.display());
 		
-		
-		Console.message("Le joueur pioche");
 		player1.draw(bagOfTiles);
-		
-		showRemainingTilesInBag(bagOfTiles);
-		
+				
 		
 		Console.message("Rack J1 :");
 		Console.message(player1.getRack().display());
@@ -47,7 +32,6 @@ public class ScrabbleApplicationConsole {
 		List<Integer> indices = playerChooseTileForChange(scanner);
         
 		player1.exchangeTiles(bagOfTiles, indices);
-		showRemainingTilesInBag(bagOfTiles);
 		
 		Console.message("Rack J1 :");
 		Console.message(player1.getRack().display());
@@ -75,8 +59,5 @@ public class ScrabbleApplicationConsole {
 		return indices;
 	}
 
-	private static void showRemainingTilesInBag(BagOfTiles bagOfTiles) {
-		Console.message("Il reste "+bagOfTiles.getRemainingTilesCount()+" jetons dans la pioche !");
-	}
 
 }
