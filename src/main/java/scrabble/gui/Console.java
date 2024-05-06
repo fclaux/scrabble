@@ -12,12 +12,12 @@ public class Console {
 	public static final String SEPARATOR_LINE = "---------------------------------------------------------";
 
 	public static void title(String text) {
-		separateur();
+		separator();
 		message(text);
-		separateur();
+		separator();
 	}
 	
-	public static void separateur() {
+	public static void separator() {
 		message(SEPARATOR_LINE);
 	}
 }
