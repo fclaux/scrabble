@@ -62,7 +62,7 @@ public class ScrabbleApplicationConsole {
         	Console.message("Entrez la place de l'élément que vous voulez retirez : ");
             input = scanner.nextInt();
 		
-			if ((input<1 || input >= Rack.MAX_TILES)&&(input!=STOP_VALUE)) {
+			if ((input < 1 || input > Rack.MAX_TILES)&&(input!=STOP_VALUE)) {
 				Console.message("ERREUR, veuillez rentrer un nombre entre 1 et "+ Rack.MAX_TILES +" : ");
 			}
 			else if (indices.contains(input-1)) {
