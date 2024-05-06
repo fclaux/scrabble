@@ -5,22 +5,28 @@ import java.util.List;
 
 public class Rack {
     private List<Tile> tiles;
-    private static final int MAX_TILES = 7;
+	public static final int MAX_TILES = 7;
 
     public Rack() {
         tiles = new ArrayList<>(MAX_TILES);
     }
     
-    public void addTile(Tile tile) {
+    public List<Tile> getTilaes() {
+		return tiles;
+	}
+
+	public void addTile(Tile tile) {
         if (tiles.size() < MAX_TILES) {
             tiles.add(tile);
         }
     }
 
-    public void removeTile(int index) {
+    public Tile removeTile(int index) {
+    	Tile removedTile = null;
         if (index >= 0 && index < tiles.size()) {
-            tiles.remove(index);
+        	removedTile = tiles.remove(index);
         }
+        return removedTile;
     }
 
     public void swapTiles(int index1, int index2) {
@@ -30,12 +36,15 @@ public class Rack {
             tiles.set(index2, temp);
         }
     }
-    public void displayRack() {
-        for (Tile tile : tiles) {
-            System.out.print(tile.display() + " ");
-        }
-        System.out.println();
     
-}
+    
+    public String display() {
+    	StringBuilder temp = new StringBuilder();
+        for (Tile tile : tiles) {
+            temp.append(tile.display() + " ");
+        }
+        return temp.toString();
+    
+    }
     
 }
