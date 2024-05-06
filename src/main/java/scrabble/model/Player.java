@@ -1,5 +1,8 @@
 package scrabble.model;
 
+import java.util.Collections;
+import java.util.List;
+
 public class Player {
 	private final String name;
 	private int score;
@@ -31,4 +34,14 @@ public class Player {
 		}
 	}
 	
+	public void exchangeTiles(BagOfTiles bagOfTiles, List<Integer> indices) {
+		Collections.sort(indices, Collections.reverseOrder());
+		for (int index : indices) {
+            if (index >= 0 && index < Rack.MAX_TILES) {
+            	bagOfTiles.add(this.rack.removeTile(index));
+            }
+        }
+		this.draw(bagOfTiles);
+		bagOfTiles.shuffle();
+	}
 }
