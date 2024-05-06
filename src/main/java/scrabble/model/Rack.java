@@ -11,7 +11,7 @@ public class Rack {
         tiles = new ArrayList<>(MAX_TILES);
     }
     
-    public List<Tile> getTilaes() {
+    public List<Tile> getTiles() {
 		return tiles;
 	}
 

@@ -25,4 +25,10 @@ public class Player {
 		return this.rack;
 	}
 	
+	public void draw(BagOfTiles bagOfTiles) {
+		while(this.rack.getTiles().size()<Rack.MAX_TILES) {
+			this.rack.addTile(bagOfTiles.drawTile());
+		}
+	}
+	
 }
