@@ -5,6 +5,8 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import scrabble.util.EmptyBagException;
+
 public class BagOfTiles {
     private List<Tile> tiles;
 
@@ -66,11 +68,11 @@ public class BagOfTiles {
 		return tiles;
 	}
     
-    public Tile drawTile() {
-		if (!tiles.isEmpty()) {
-			return tiles.remove(0);
+    public Tile drawTile() throws EmptyBagException {
+		if (tiles.isEmpty()) {
+			throw new EmptyBagException("Can't draw a tile, the bag is empty");
 		}
-		return null;
+		return tiles.remove(0);
     }
     
     public void add(Tile tile) {
