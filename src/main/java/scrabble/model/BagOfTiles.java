@@ -60,6 +60,10 @@ public class BagOfTiles {
         tiles.add(new Tile(Letters.JOKER));
     }
     
+    public List<Tile> getTiles() {
+		return tiles;
+	}
+    
     public Tile drawTile() {
 		if (!tiles.isEmpty()) {
 			return tiles.remove(0);
