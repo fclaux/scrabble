@@ -3,6 +3,8 @@ package scrabble.model;
 import java.util.Collections;
 import java.util.List;
 
+import scrabble.util.EmptyBagException;
+
 public class Player {
 	private final String name;
 	private int score;
@@ -30,7 +32,11 @@ public class Player {
 	
 	public void draw(BagOfTiles bagOfTiles) {
 		while(this.rack.getTiles().size()<Rack.MAX_TILES) {
-			this.rack.addTile(bagOfTiles.drawTile());
+			try {
+				this.rack.addTile(bagOfTiles.drawTile());
+			} catch (EmptyBagException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 	
