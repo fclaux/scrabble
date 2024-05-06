@@ -1,6 +1,7 @@
 package scrabble.model;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class BagOfTiles {
@@ -70,7 +71,15 @@ public class BagOfTiles {
 		}
 		return null;
     }
-
+    
+    public void add(Tile tile) {
+		this.tiles.add(tile);
+	}
+	
+	public void addAll(Collection<Tile> tiles) {
+		this.tiles.addAll(tiles);
+	}
+	
     public boolean isEmpty() {
         return tiles.isEmpty();
     }
