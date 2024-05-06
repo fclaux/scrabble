@@ -92,4 +92,12 @@ public class BagOfTiles {
     public void shuffle() {
     	Collections.shuffle(tiles);
     }
+    
+    public String display() {
+    	StringBuilder temp = new StringBuilder();
+        for (Tile tile : tiles) {
+            temp.append(tile.display() + " ");
+        }
+        return temp.toString();
+    }
 }
