@@ -1,23 +1,21 @@
 package scrabble.model;
 
 public class GameBoard {
-	private Cell[][] cells;
-	private final int numRows;
-	private final int numCols;
+	public static final int SIZE_GRID = 15;
 	
-	public GameBoard(int numRows, int numCols) {
-        this.numRows = numRows;
-        this.numCols = numCols;
-        this.cells = new Cell[numRows][numCols];
+	private Cell[][] cells;
+	
+	public GameBoard() {
+        this.cells = new Cell[SIZE_GRID][SIZE_GRID];
         initializeEmptyBoard();
     }
 	
 	private void initializeEmptyBoard() {
-        for (int i = 0; i < numRows; i++) {
-            for (int j = 0; j < numCols; j++) {
+        for (int i = 0; i < SIZE_GRID; i++) {
+            for (int j = 0; j < SIZE_GRID; j++) {
                 cells[i][j] = new Cell(Effects.NONE);
             }
         }
-        cells[8][8] = new Cell(Effects.STARS);
+        cells[7][7] = new Cell(Effects.STARS);
     }
 }
