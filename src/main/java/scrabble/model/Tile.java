@@ -3,18 +3,18 @@ package scrabble.model;
 public class Tile {
 	
 	
-	protected Letters tile;
+	protected Letters letter;
 	
-	public Tile(Letters tile) {
-		this.tile = tile;
+	public Tile(Letters letter) {
+		this.letter = letter;
 	}
 
-	public Letters getTile() {
-		return tile;
+	public Letters getLetter() {
+		return letter;
 	}
 
-	public void setTile(Letters tile) {
-		this.tile = tile;
+	public void setLetter(Letters letter) {
+		this.letter = letter;
 	}
 	
 	public String display() {
@@ -24,13 +24,13 @@ public class Tile {
 	    }
 	    subscriptDigits[10] = '\u2081';
 
-	    int value = this.tile.getValue();
+	    int value = this.letter.getValue();
 	    String subscript = String.valueOf(subscriptDigits[value % 10]);
 	    if (value >= 10) {
 	        subscript = String.valueOf(subscriptDigits[value / 10]) + subscript;
 	    }
 
-	    return this.tile + "" + subscript;
+	    return this.letter + "" + subscript;
 	}
 
 
