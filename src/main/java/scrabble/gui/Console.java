@@ -9,7 +9,7 @@ public class Console {
 		System.out.println(text);
 	}
 
-	public static final String SEPARATOR_LINE = "---------------------------------------------------------";
+	public static final String SEPARATOR_LINE = "-------------------------------------------------------------";
 
 	public static void title(String text) {
 		separator();
