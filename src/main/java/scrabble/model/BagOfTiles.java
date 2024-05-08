@@ -3,7 +3,9 @@ package scrabble.model;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.EnumMap;
 import java.util.List;
+import java.util.Map;
 
 import scrabble.util.EmptyBagException;
 
@@ -16,52 +18,42 @@ public class BagOfTiles {
     }
 
     private void initializeTiles() {
-        for (int i = 0; i < 15;i++) {
-        	tiles.add(new Tile(Letters.E));	
-        }
-    	for (int i = 0; i < 9; i++) {
-            tiles.add(new Tile(Letters.A));
-        }
-    	for (int i = 0; i < 8; i++) {
-            tiles.add(new Tile(Letters.I));
-        }
-    	for (int i = 0; i < 6; i++) {
-            tiles.add(new Tile(Letters.N));
-            tiles.add(new Tile(Letters.O));
-            tiles.add(new Tile(Letters.R));
-            tiles.add(new Tile(Letters.S));
-            tiles.add(new Tile(Letters.T));
-            tiles.add(new Tile(Letters.U));
-        }
-    	
-    	for (int i = 0; i < 5; i++) {
-            tiles.add(new Tile(Letters.L));
-    	}
-    	
-    	for (int i = 0; i < 3; i++) {
-            tiles.add(new Tile(Letters.D));
-            tiles.add(new Tile(Letters.M));
-    	}
-    	
-    	for (int i = 0; i < 2; i++) {
-            tiles.add(new Tile(Letters.G));
-            tiles.add(new Tile(Letters.B));
-            tiles.add(new Tile(Letters.C));
-            tiles.add(new Tile(Letters.P));
-            tiles.add(new Tile(Letters.F));
-            tiles.add(new Tile(Letters.H));
-            tiles.add(new Tile(Letters.V));
-    	}
+    	EnumMap<Letters, Integer> letterFrequency = new EnumMap<>(Letters.class);
+        letterFrequency.put(Letters.E, 15);
+        letterFrequency.put(Letters.A, 9);
+        letterFrequency.put(Letters.I, 8);
+        letterFrequency.put(Letters.N, 6);
+        letterFrequency.put(Letters.O, 6);
+        letterFrequency.put(Letters.R, 6);
+        letterFrequency.put(Letters.S, 6);
+        letterFrequency.put(Letters.T, 6);
+        letterFrequency.put(Letters.U, 6);
+        letterFrequency.put(Letters.L, 5);
+        letterFrequency.put(Letters.D, 3);
+        letterFrequency.put(Letters.M, 3);
+        letterFrequency.put(Letters.G, 2);
+        letterFrequency.put(Letters.B, 2);
+        letterFrequency.put(Letters.C, 2);
+        letterFrequency.put(Letters.P, 2);
+        letterFrequency.put(Letters.F, 2);
+        letterFrequency.put(Letters.H, 2);
+        letterFrequency.put(Letters.V, 2);
+        letterFrequency.put(Letters.J, 1);
+        letterFrequency.put(Letters.Q, 1);
+        letterFrequency.put(Letters.Y, 1);
+        letterFrequency.put(Letters.K, 1);
+        letterFrequency.put(Letters.W, 1);
+        letterFrequency.put(Letters.X, 1);
+        letterFrequency.put(Letters.Z, 1);
+        letterFrequency.put(Letters.JOKER, 1);
 
-        tiles.add(new Tile(Letters.J));
-        tiles.add(new Tile(Letters.Q));
-        tiles.add(new Tile(Letters.U));
-        tiles.add(new Tile(Letters.Y));
-        tiles.add(new Tile(Letters.K));
-        tiles.add(new Tile(Letters.W));
-        tiles.add(new Tile(Letters.X));
-        tiles.add(new Tile(Letters.Z));
-        tiles.add(new Tile(Letters.JOKER));
+        for (Map.Entry<Letters, Integer> entry : letterFrequency.entrySet()) {
+            Letters letter = entry.getKey();
+            int frequency = entry.getValue();
+            for (int i = 0; i < frequency; i++) {
+                tiles.add(new Tile(letter));
+            }
+        }
     }
     
     public List<Tile> getTiles() {
