@@ -6,7 +6,6 @@ import scrabble.gui.ConsoleColor;
 public class GameBoard {
 	public static final int SIZE_GRID = 15;
 	
-	
 	private Cell[][] cells;
 	
 	public GameBoard() {
@@ -54,7 +53,7 @@ public class GameBoard {
         	temp.append(String.format("%2d ", i+1));
             for (int j = 0; j < SIZE_GRID; j++) {
                 if (this.cells[i][j].isOccupied()) {
-                	temp.append(String.format("%-3d",this.cells[i][j].getTile().display()));
+                	temp.append(String.format("|"+ ConsoleColor.CYAN_BOLD.getCode() + "%-3s" + ConsoleColor.RESET.getCode(),this.cells[i][j].getTile().display()));
                 }
                 else {
                 	String symbol = this.cells[i][j].getEffect().getUnicode();
@@ -88,4 +87,10 @@ public class GameBoard {
         temp.append(ROW_SEPARATOR);
         return temp.toString();
     }
+
+	public void addTile(Tile tile, int row, int column) {
+		this.cells[row-1][column-1].setTile(tile);
+	}
+	
+	
 }
