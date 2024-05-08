@@ -45,7 +45,7 @@ public class BagOfTiles {
         letterFrequency.put(Letters.W, 1);
         letterFrequency.put(Letters.X, 1);
         letterFrequency.put(Letters.Z, 1);
-        letterFrequency.put(Letters.JOKER, 1);
+        letterFrequency.put(Letters.JOKER, 2);
 
         for (Map.Entry<Letters, Integer> entry : letterFrequency.entrySet()) {
             Letters letter = entry.getKey();
