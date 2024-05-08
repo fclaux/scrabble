@@ -53,7 +53,7 @@ public class GameBoard {
         	temp.append(String.format("%2d ", i+1));
             for (int j = 0; j < SIZE_GRID; j++) {
                 if (this.cells[i][j].isOccupied()) {
-                	temp.append(String.format("|"+ ConsoleColor.CYAN_BOLD.getCode() + "%-3s" + ConsoleColor.RESET.getCode(),this.cells[i][j].getTile().display()));
+                	temp.append("|"+ ConsoleColor.CYAN_BOLD.getCode() + String.format("%-3s",this.cells[i][j].getTile().display()) + ConsoleColor.RESET.getCode());
                 }
                 else {
                 	String symbol = this.cells[i][j].getEffect().getUnicode();
