@@ -3,7 +3,7 @@ package scrabble.model;
 public class Tile {
 	
 	
-	protected Letters letter;
+	private Letters letter;
 	
 	public Tile(Letters letter) {
 		this.letter = letter;
@@ -18,22 +18,7 @@ public class Tile {
 	}
 	
 	public String display() {
-	    char[] subscriptDigits = new char[11];
-	    for (int i = 0; i < 10; i++) {
-	        subscriptDigits[i] = (char) (0x2080 + i);
-	    }
-	    subscriptDigits[10] = '\u2081';
-
-	    int value = this.letter.getValue();
-	    String subscript = String.valueOf(subscriptDigits[value % 10]);
-	    if (value >= 10) {
-	        subscript = String.valueOf(subscriptDigits[value / 10]) + subscript;
-	    }
-
-	    return this.letter + "" + subscript;
+	    String[] subscriptDigits = {"\u2080","\u2081","\u2082","\u2083","\u2084","\u2085","\u2086","\u2087","\u2088","\u2089","\u2081\u2080"};
+	    return this.letter + "" + subscriptDigits[this.letter.getValue()];
 	}
-
-
-	
-		
 }
