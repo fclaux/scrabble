@@ -22,4 +22,14 @@ public class Cell {
 	public boolean isOccupied() {
 		return isOccupied;
 	}
+	
+	public void setTile(Tile tile) {
+		this.tile=tile;
+		this.isOccupied=true;
+	}
+	
+	public void removeTile() {
+		this.tile=null;
+		this.isOccupied=false;
+	}
 }
