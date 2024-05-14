@@ -52,7 +52,7 @@ public class GameBoard {
         	temp.append(ROW_SEPARATOR);
         	temp.append(String.format("%2d ", i+1));
             for (int j = 0; j < SIZE_GRID; j++) {
-                if (this.cells[i][j].isOccupied()) {
+                if (!this.cells[i][j].isEmpty()) {
                 	temp.append("|"+ ConsoleColor.CYAN_BOLD.getCode() + String.format("%-3s",this.cells[i][j].getTile().display()) + ConsoleColor.RESET.getCode());
                 }
                 else {
