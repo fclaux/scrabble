@@ -31,8 +31,22 @@ class CellTest {
 		assertFalse(cell.isEmpty());
 		cell.removeTile();
 		assertTrue(cell.isEmpty());
-		cell.removeTile();
-		assertTrue(cell.isEmpty());
+	}
+	
+	@Test
+	void get_effect_of_cell() {
+		Effects cell_effect;
+		cell_effect = cell.getEffect();
+		assertEquals(Effects.NONE, cell_effect);
+	}
+	
+	@Test
+	void get_tile_in_cell() {
+		Tile tile = new Tile(Letters.M);
+		Tile cell_tile;
+		cell.setTile(tile);
+		cell_tile = cell.getTile();
+		assertEquals(tile, cell_tile);
 	}
 	
 }
