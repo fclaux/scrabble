@@ -1,5 +1,7 @@
 package scrabble.controller;
 
+import java.util.List;
+
 import scrabble.model.BagOfTiles;
 import scrabble.model.GameBoard;
 import scrabble.model.Player;
@@ -43,9 +45,12 @@ public class GameMaster {
 	
 	public void start() {
 		this.bagOfTiles.shuffle();
-		this.player.draw(bagOfTiles);
+		this.player.draw(this.bagOfTiles);
 	}
 	
+	public void playerExchangeTiles(List<Integer> indices) {
+		this.player.exchangeTiles(this.bagOfTiles, indices);
+	}
 	
 
 }

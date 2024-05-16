@@ -18,6 +18,11 @@ public class ScrabbleApplicationConsole {
 		gameMaster.start();
 		
 		showGameBoard(gameMaster.gameBoard());
+		
+		showPlayerRack(gameMaster.player());
+		gameMaster.playerExchangeTiles(playerChooseTileForChange());
+		showPlayerRack(gameMaster.player());
+		
 	}
 	
 	private static void showGameBoard(GameBoard gameboard) {
@@ -69,7 +74,8 @@ public class ScrabbleApplicationConsole {
         Console.message(temp.toString()); 
 	}
 	
-	private static List<Integer> playerChooseTileForChange(Scanner scanner) {
+	private static List<Integer> playerChooseTileForChange() {
+		Scanner scanner = new Scanner(System.in);
 		Console.title("  Pour remplacez des éléments, entrez les indices un à un puis écrivez "+ STOP_VALUE +" pour arrêter");
 		int input;
 		List<Integer> indices = new ArrayList<>();
@@ -87,7 +93,18 @@ public class ScrabbleApplicationConsole {
 				indices.add(input-1);
 			}
 		} while (input != STOP_VALUE);
+		scanner.close();
 		return indices;
 	}
 
+	private static void showPlayerRack(Player player) {
+		Console.separator();
+		Console.message("Rack de "+ player.getName());
+		StringBuilder temp = new StringBuilder();
+        for (Tile tile : player.getRack().getTiles()) {
+            temp.append(tile.display() + " ");
+        }
+        Console.message(temp.toString());
+        Console.separator();
+	}
 }
