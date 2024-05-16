@@ -15,6 +15,10 @@ public class Rack {
 		return tiles;
 	}
 
+    public boolean isEmpty() {
+    	return tiles.isEmpty();
+    }
+    
 	public void addTile(Tile tile) {
         if (tiles.size() < MAX_TILES) {
             tiles.add(tile);
