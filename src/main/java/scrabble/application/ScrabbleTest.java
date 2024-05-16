@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import scrabble.controller.GameMaster;
 import scrabble.gui.Console;
 import scrabble.model.BagOfTiles;
 import scrabble.model.GameBoard;

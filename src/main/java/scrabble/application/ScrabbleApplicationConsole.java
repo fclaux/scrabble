@@ -1,5 +1,7 @@
 package scrabble.application;
 
+import scrabble.controller.GameMaster;
+
 public class ScrabbleApplicationConsole {
 	
 	public static void main(String[] args) {

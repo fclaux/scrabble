@@ -1,4 +1,4 @@
-package scrabble.application;
+package scrabble.controller;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,8 +33,7 @@ public class GameMaster {
 				
 		this.bagOfTiles.shuffle();
 				
-		player.draw(bagOfTiles);
-						
+		player.draw(bagOfTiles);			
 				
 		Console.message("Rack J1 :");
 		Console.message(this.player.getRack().display());
@@ -44,9 +43,7 @@ public class GameMaster {
 		this.player.exchangeTiles(bagOfTiles, indices);
 				
 		Console.message("Rack J1 :");
-		Console.message(this.player.getRack().display());
-				
-		
+		Console.message(this.player.getRack().display());			
 	}
 	
 	private static List<Integer> playerChooseTileForChange(Scanner scanner) {
