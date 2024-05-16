@@ -5,13 +5,17 @@ import java.util.List;
 import java.util.Scanner;
 
 import scrabble.gui.Console;
-import scrabble.model.*;
+import scrabble.model.BagOfTiles;
+import scrabble.model.GameBoard;
+import scrabble.model.Player;
+import scrabble.model.Rack;
+import scrabble.util.IndexOutOfRackException;
 
 public class ScrabbleTest {
 	
 	public static final int STOP_VALUE = -1;
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IndexOutOfRackException {
 		Console.separator();
 		Console.message("|   Bienvenue dans notre magnifique jeu de scrabble !   |");
 		Console.message("|   développé par Maxence                               |");
@@ -23,6 +27,8 @@ public class ScrabbleTest {
 		BagOfTiles bagOfTiles = new BagOfTiles();
 		Player player1 = new Player("Dorian");
 		Scanner scanner = new Scanner(System.in);
+		GameMaster gameMaster = new GameMaster();
+
 		
 		Console.title("  La grille");
 		Console.message(gameBoard.showGameBoard());
@@ -52,6 +58,11 @@ public class ScrabbleTest {
 		Console.message("Rack J1 :");
 		Console.message(player1.getRack().display());
 		
+		gameMaster.putLetterFromRackToGameBoard(player1.getRack(), 1, 8, 8);
+		Console.message(gameMaster.getGameBoard().showGameBoard());
+		Console.message("Rack J1 :");
+		Console.message(player1.getRack().display());
+		
 	}
 
 	private static List<Integer> playerChooseTileForChange(Scanner scanner) {
@@ -78,5 +89,7 @@ public class ScrabbleTest {
 	private static void showRemainingTilesInBag(BagOfTiles bagOfTiles) {
 		Console.message("Il reste "+bagOfTiles.getRemainingTilesCount()+" jetons dans la pioche !");
 	}
+	
+
 
 }
