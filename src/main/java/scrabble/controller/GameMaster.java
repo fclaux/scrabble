@@ -60,7 +60,7 @@ public class GameMaster {
 	
 	public void start() {
 		this.bagOfTiles.shuffle();
-		this.player.draw(bagOfTiles);
+		this.player.draw(this.bagOfTiles);
 	}
 	
 	public void playerExchangeTiles(List<Integer> indices) {

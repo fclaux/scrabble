@@ -51,9 +51,9 @@ public class ScrabbleApplicationConsole {
 			}
 			
 		} while (input != STOP_VALUE);
+		scanner.close();
 		return indices;
 	}
-	
 	private static void placeTiles(GameMaster gameMaster, Player player){
         boolean placing = true;
         Rack rack = player.getRack();
@@ -92,4 +92,14 @@ public class ScrabbleApplicationConsole {
     
     }
 
+	private static void showPlayerRack(Player player) {
+		Console.separator();
+		Console.message("Rack de "+ player.getName());
+		StringBuilder temp = new StringBuilder();
+        for (Tile tile : player.getRack().getTiles()) {
+            temp.append(tile.display() + " ");
+        }
+        Console.message(temp.toString());
+        Console.separator();
+	}
 }
