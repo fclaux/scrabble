@@ -19,15 +19,15 @@ public class ScrabbleApplicationConsole {
 		GameMaster gameMaster = new GameMaster();
 		GameBoard gameBoard = gameMaster.gameBoard(); 
 		Player player = gameMaster.player();
-        //Rack rack = player.getRack();
+        Rack rack = player.getRack();
 
 		
 		
 		gameMaster.start();
 		gameBoard.display();
 		
-		//rack.display();
-		//gameMaster.playerExchangeTiles(playerChooseTileForChange());
+		rack.display();
+		gameMaster.playerExchangeTiles(playerChooseTileForChange());
 		
 		placeTiles(gameMaster,player);
 		gameBoard.display();
@@ -37,10 +37,10 @@ public class ScrabbleApplicationConsole {
 	
 	private static List<Integer> playerChooseTileForChange() {
 		
-		Console.title("Pour remplacez des éléments, entrez les indices un à un puis écrivez "+ STOP_VALUE +" pour arrêter");
 		int input;
 		List<Integer> indices = new ArrayList<>();
 		do {
+			Console.title("Pour remplacez des éléments, entrez les indices un à un puis écrivez "+ STOP_VALUE +" pour arrêter");
 			input = Console.askInt(STOP_VALUE, Rack.MAX_TILES);
 			if(input != STOP_VALUE) {
 				if (indices.contains(input-1)) {

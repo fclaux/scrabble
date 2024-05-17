@@ -50,6 +50,7 @@ public class Console {
         while (response == null) {
             try {
                 response = scanner.nextInt();
+                scanner.nextLine();
             } catch (InputMismatchException e) {
                 Console.message("Veuillez saisir un nombre");
                 scanner.next();
@@ -64,7 +65,7 @@ public class Console {
             }
         }
 
-
+        
         return response;
     }
 }
