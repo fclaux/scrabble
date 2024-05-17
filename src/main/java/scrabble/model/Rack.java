@@ -3,6 +3,8 @@ package scrabble.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import scrabble.gui.Console;
+
 public class Rack {
     private List<Tile> tiles;
 	public static final int MAX_TILES = 7;
@@ -38,12 +40,12 @@ public class Rack {
     }
     
     
-    public String display() {
+    public void display() {
     	StringBuilder temp = new StringBuilder();
         for (Tile tile : tiles) {
             temp.append(tile.display() + " ");
         }
-        return temp.toString();
+        Console.message(temp.toString());
     
     }
     

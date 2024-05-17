@@ -50,4 +50,7 @@ public class Player {
 		this.draw(bagOfTiles);
 		bagOfTiles.shuffle();
 	}
+	
+	
+	
 }

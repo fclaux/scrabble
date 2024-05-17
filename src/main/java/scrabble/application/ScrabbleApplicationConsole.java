@@ -2,91 +2,94 @@ package scrabble.application;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 import scrabble.controller.GameMaster;
 import scrabble.gui.Console;
-import scrabble.gui.ConsoleColor;
-import scrabble.model.*;
+import scrabble.model.GameBoard;
+import scrabble.model.Player;
+import scrabble.model.Rack;
+import scrabble.util.IndexOutOfBoardException;
+import scrabble.util.IndexOutOfRackException;
 
 public class ScrabbleApplicationConsole {
-	private static final int STOP_VALUE = -1;
+	private static final int STOP_VALUE = 0;
 	
 	public static void main(String[] args) {
 		GameMaster gameMaster = new GameMaster();
+		GameBoard gameBoard = gameMaster.gameBoard(); 
+		Player player = gameMaster.player();
+        //Rack rack = player.getRack();
+
+		
+		
 		gameMaster.start();
+		gameBoard.display();
 		
-		showGameBoard(gameMaster.gameBoard());
+		//rack.display();
+		//gameMaster.playerExchangeTiles(playerChooseTileForChange());
+		
+		placeTiles(gameMaster,player);
+		gameBoard.display();
 	}
 	
-	private static void showGameBoard(GameBoard gameboard) {
-		StringBuilder temp = new StringBuilder();
-		final String ROW_SEPARATOR = "   " + Console.SEPARATOR_LINE + "\n";
-		
-		temp.append("     ");
-	    for (int i = 1; i <= GameBoard.SIZE_GRID; i++) {
-	        temp.append(String.format("%-4d", i));
-	    }
-	    temp.append("\n");
-        for (int i = 1; i <= GameBoard.SIZE_GRID; i++) {
-        	temp.append(ROW_SEPARATOR);
-        	temp.append(String.format("%2d ", i+1));
-            for (int j = 1; j <= GameBoard.SIZE_GRID; j++) {
-                if (!gameboard.getCell(i,j).isEmpty()) {
-                	temp.append("|"+ ConsoleColor.CYAN_BOLD.getCode() + String.format("%-3s",gameboard.getCell(i,j).getTile().display()) + ConsoleColor.RESET.getCode());
-                }
-                else {
-                	String symbol = gameboard.getCell(i,j).getEffect().getUnicode();
-                    ConsoleColor color;
-                    switch (gameboard.getCell(i,j).getEffect()) {
-                        case STARS:
-                            color = ConsoleColor.YELLOW_BACKGROUND;
-                            break;
-                        case TRIPLE_LETTER:
-                            color = ConsoleColor.RED_BACKGROUND;
-                            break;
-                        case DOUBLE_LETTER:
-                            color = ConsoleColor.GREEN_BACKGROUND;
-                            break;
-                        case DOUBLE_WORD:
-                            color = ConsoleColor.BLUE_BACKGROUND;
-                            break;
-                        case TRIPLE_WORD:
-                            color = ConsoleColor.PURPLE_BACKGROUND;
-                            break;
-                        case NONE:
-                        default:
-                            color = ConsoleColor.RESET;
-                            break;
-                    }
-                    temp.append("|"+color.getCode() +" " + symbol + " "+ ConsoleColor.RESET.getCode());
-                }
-            }
-            temp.append("|\n");
-        }
-        temp.append(ROW_SEPARATOR);
-        Console.message(temp.toString()); 
-	}
 	
-	private static List<Integer> playerChooseTileForChange(Scanner scanner) {
-		Console.title("  Pour remplacez des éléments, entrez les indices un à un puis écrivez "+ STOP_VALUE +" pour arrêter");
+	
+	private static List<Integer> playerChooseTileForChange() {
+		
+		Console.title("Pour remplacez des éléments, entrez les indices un à un puis écrivez "+ STOP_VALUE +" pour arrêter");
 		int input;
 		List<Integer> indices = new ArrayList<>();
 		do {
-			Console.message("Entrez la place de l'élément que vous voulez retirez : ");
-			input = scanner.nextInt();
+			input = Console.askInt(STOP_VALUE, Rack.MAX_TILES);
+			if(input != STOP_VALUE) {
+				if (indices.contains(input-1)) {
+					Console.message("ERREUR, veuillez rentrer un nombre différents de ceux déja entrés  : ");
+				}
+				else {
+					indices.add(input-1);
+				}
+			}
 			
-			if ((input < 1 || input > Rack.MAX_TILES)&&(input!=STOP_VALUE)) {
-				Console.message("ERREUR, veuillez rentrer un nombre entre 1 et "+ Rack.MAX_TILES +" : ");
-			}
-			else if (indices.contains(input-1)) {
-				Console.message("ERREUR, veuillez rentrer un nombre différents de ceux déja entrés  : ");
-			}
-			else {
-				indices.add(input-1);
-			}
 		} while (input != STOP_VALUE);
 		return indices;
 	}
+	
+	private static void placeTiles(GameMaster gameMaster, Player player){
+        boolean placing = true;
+        Rack rack = player.getRack();
+
+        while (placing) {
+            Console.message("Votre chevalet: ");
+            rack.display();
+
+
+            String input = Console.askString("Entrez l'indice de la lettre dans votre chevalet et ses coordonnées (ligne, colonne) séparés par des espaces (ex: 1 5 7) ou 'v' pour valider le placement :");
+            if (input.equalsIgnoreCase("v")) {
+                if (gameMaster.validatePlacement()) {
+                    Console.message("Placement validé!");
+                    placing = false;
+                } else {
+                    Console.message("Placement invalide. Réessayez. 1");
+                }
+
+            } else {
+                try {
+                    String[] parts = input.split(" ");
+                    if (parts.length != 3) {
+                        throw new IllegalArgumentException("Entrée invalide. Format attendu: <indice> <ligne> <colonne>");
+                    }
+                    int rackIndex = Integer.parseInt(parts[0]) - 1;
+                    int row = Integer.parseInt(parts[1]);
+                    int col = Integer.parseInt(parts[2]);
+                    gameMaster.putLetterFromRackToGameBoard(rack, rackIndex, row, col);
+                } catch (IndexOutOfRackException e) {
+                    Console.message(e.getMessage());
+                } catch (IndexOutOfBoardException e) {
+                    Console.message("Entrée invalide. Réessayez. 2");
+                } 
+            }
+        }
+    
+    }
 
 }
