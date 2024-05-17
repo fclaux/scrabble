@@ -4,6 +4,7 @@ package scrabble.controller;
 import java.util.List;
 
 import scrabble.model.BagOfTiles;
+import scrabble.model.Cell;
 import scrabble.model.GameBoard;
 import scrabble.model.Player;
 import scrabble.model.Rack;
@@ -67,10 +68,36 @@ public class GameMaster {
 		this.player.exchangeTiles(this.bagOfTiles, indices);
 	}
 
-	
+	public int calculScoreForWord(List<Cell> cells) {
+		int totalScore = 0;
+        int wordMultiplier = 1;
 
-	
-	
+        for (Cell cell : cells) {
+            Tile tile = cell.getTile();
+            int tileScore = tile.getLetter().getValue();
+
+            switch (cell.getEffect()) {
+                case DOUBLE_LETTER:
+                    tileScore *= 2;
+                    break;
+                case TRIPLE_LETTER:
+                    tileScore *= 3;
+                    break;
+                case DOUBLE_WORD:
+                    wordMultiplier *= 2;
+                    break;
+                case TRIPLE_WORD:
+                    wordMultiplier *= 3;
+                    break;
+                default:
+                    break;
+            }
+
+            totalScore += tileScore;
+        }
+
+        return totalScore * wordMultiplier;
+    }
 
 }
 
