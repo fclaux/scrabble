@@ -8,6 +8,7 @@ import scrabble.gui.Console;
 import scrabble.model.GameBoard;
 import scrabble.model.Player;
 import scrabble.model.Rack;
+import scrabble.model.Tile;
 import scrabble.util.IndexOutOfBoardException;
 import scrabble.util.IndexOutOfRackException;
 
@@ -51,7 +52,6 @@ public class ScrabbleApplicationConsole {
 			}
 			
 		} while (input != STOP_VALUE);
-		scanner.close();
 		return indices;
 	}
 	private static void placeTiles(GameMaster gameMaster, Player player){
