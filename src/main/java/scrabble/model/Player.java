@@ -30,7 +30,7 @@ public class Player {
 		return this.rack;
 	}
 	
-	public void draw(BagOfTiles bagOfTiles) {
+	public void fillRack(BagOfTiles bagOfTiles) {
 		while(this.rack.getTiles().size()<Rack.MAX_TILES) {
 			try {
 				this.rack.addTile(bagOfTiles.drawTile());
@@ -47,7 +47,14 @@ public class Player {
             	bagOfTiles.add(this.rack.removeTile(index));
             }
         }
-		this.draw(bagOfTiles);
+		this.fillRack(bagOfTiles);
 		bagOfTiles.shuffle();
 	}
+	
+	public void addTileInRack (Tile tile) {
+		this.rack.addTile(tile);
+	}
+	
+	
+	
 }
