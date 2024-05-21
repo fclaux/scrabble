@@ -37,14 +37,7 @@ public class Rack {
         }
     }
     
-    
-    public String display() {
-    	StringBuilder temp = new StringBuilder();
-        for (Tile tile : tiles) {
-            temp.append(tile.display() + " ");
-        }
-        return temp.toString();
-    
+    public int size () {
+    	return this.tiles.size();
     }
-    
 }
