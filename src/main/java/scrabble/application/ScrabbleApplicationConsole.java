@@ -1,11 +1,16 @@
 package scrabble.application;
 
+import scrabble.controller.ConsoleGameController;
+
 public class ScrabbleApplicationConsole {
+
 	
 	public static void main(String[] args) {
-		GameMaster gameMaster = new GameMaster();
+		ConsoleGameController gameController = new ConsoleGameController();
 		
-		gameMaster.start();
+		gameController.startGame();
 	}
+	
+	
 
 }
