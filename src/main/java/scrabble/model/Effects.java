@@ -8,13 +8,13 @@ public enum Effects {
 	DOUBLE_WORD("\u25A1"),
 	TRIPLE_WORD("\u25A0");
 	
-	private final String unicode;
+	private final String symbol;
 	
-	Effects(String unicode) {
-        this.unicode = unicode;
+	Effects(String symbol) {
+        this.symbol = symbol;
     }
 
-    public String getUnicode() {
-        return unicode;
+    public String getSymbol() {
+        return symbol;
     }
 }
