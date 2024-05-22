@@ -3,6 +3,7 @@ package scrabble.model;
 import java.util.Collections;
 import java.util.List;
 
+import scrabble.gui.Console;
 import scrabble.util.EmptyBagException;
 
 public class Player {
@@ -35,7 +36,8 @@ public class Player {
 			try {
 				this.rack.addTile(bagOfTiles.drawTile());
 			} catch (EmptyBagException e) {
-				e.printStackTrace();
+				Console.message("Le sac est vide, vous ne pouvez plus piocher", true);
+				break;
 			}
 		}
 	}
