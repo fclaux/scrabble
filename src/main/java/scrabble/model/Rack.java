@@ -44,4 +44,8 @@ public class Rack {
     public int size () {
     	return this.tiles.size();
     }
+
+	public boolean isEmpty() {
+		return this.tiles.isEmpty();
+	}
 }
