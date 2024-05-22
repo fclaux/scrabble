@@ -21,6 +21,8 @@ public class ConsoleGameController {
     private GameBoardView gameBoardView;
     private RackView rackView;
     private Scanner scanner;
+    private boolean firstExchange = true;
+
     
     private static final int STOP_VALUE = 0;
 
@@ -36,6 +38,8 @@ public class ConsoleGameController {
 
     public void startGame() {
     	Player player1 = this.player;
+    	
+    	
     	shuffleBagOfTiles();
     	fillPlayerRack(player1);
         boolean running = true;
@@ -48,7 +52,15 @@ public class ConsoleGameController {
                     fillPlayerRack(player1);
                     break;
                 case 2:
-                    exchangeTiles(player1);
+                	if (this.firstExchange) {
+                		this.firstExchange = false;
+                        exchangeTiles(player1);
+                        
+                	}
+                	else {
+                		Console.message("Vous avez déjà échangé des tuiles ce tour, choisissez une autre option", true);
+                	}
+                    
                     break;
                 case 3:
                     running = false;
@@ -81,6 +93,7 @@ public class ConsoleGameController {
     private void applyMoves(List<Move> playerMoves) {
         if (isMovesValid(playerMoves)) {
         	Console.message("Votre coup est valide ! ", true);
+            this.firstExchange = true;
             addTilesToBoard(playerMoves);
         } else {
         	Console.message("Votre coup n'est pas valide ! ", true);
