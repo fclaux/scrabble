@@ -43,7 +43,7 @@ public class ConsoleGameController {
     	shuffleBagOfTiles();
     	fillPlayerRack(player1);
         boolean running = true;
-        while (running) {
+        while (running && !player1.getRack().isEmpty()) {
             menuView.displayMenu(this.gameBoard, player1.getRack());
             int choice = getInput();
             switch (choice) {
