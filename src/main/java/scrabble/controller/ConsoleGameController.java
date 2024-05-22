@@ -100,6 +100,9 @@ public class ConsoleGameController {
     private void returnTilesToRack(List<Move> playerMoves) {
         for (Move move : playerMoves) {
             Tile tile = move.getTile();
+            if (tile.isJoker()) {
+            	tile.setLetter(Letters.JOKER);
+            }
             this.player.addTileInRack(tile);
         }
     }
