@@ -21,9 +21,9 @@ public class TileTest {
 		Letters tile_letters_before;
 		Letters tile_letters_after;
 		
-		tile_letters_before = tile.getLetter();
+		tile_letters_before = tile.letter();
 		tile.setLetter(Letters.F);
-		tile_letters_after = tile.getLetter();
+		tile_letters_after = tile.letter();
 		assertThat(tile_letters_before).isEqualTo(Letters.M);
 		assertThat(tile_letters_after).isNotEqualTo(tile_letters_before);
 	}
