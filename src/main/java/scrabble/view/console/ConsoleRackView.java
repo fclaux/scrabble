@@ -10,7 +10,7 @@ public class ConsoleRackView implements RackView {
 	@Override
 	public void display(Rack rack) {
 		ConsoleTileView tileView = new ConsoleTileView();
-		for (Tile tile : rack.getTiles()) {
+		for (Tile tile : rack.tiles()) {
             tileView.display(tile);
             Console.space();
         }

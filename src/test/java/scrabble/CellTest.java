@@ -27,7 +27,7 @@ class CellTest {
 	@Test
 	void add_and_remove_tile_in_cell() {
 		Tile tile = new Tile(Letters.A);
-		cell.setTile(tile);
+		cell.tile(tile);
 		assertFalse(cell.isEmpty());
 		cell.removeTile();
 		assertTrue(cell.isEmpty());
