@@ -6,6 +6,7 @@ import java.util.Scanner;
 
 import scrabble.gui.Console;
 import scrabble.model.*;
+import scrabble.util.EmptyBagException;
 import scrabble.util.IndexOutOfBoardException;
 import scrabble.util.ScoreCounter;
 import scrabble.view.console.ConsoleGameBoardView;
@@ -120,8 +121,6 @@ public class ConsoleGameController {
         }
     }
     
-   
-    
 
     private List<Move> getPlayerMoves() throws IndexOutOfBoardException {
     	Direction direction = Direction.HORIZONTAL;
@@ -182,26 +181,22 @@ public class ConsoleGameController {
 
     
 
-private Tile answerTile(Rack rack) {
-	this.rackView.display(rack);
-	Console.message("Veuillez entrer l'indice de la tuile : ",false);
-	int indice = Console.askInt(STOP_VALUE, rack.size());
-	
-	if(indice != STOP_VALUE) {
+	private Tile answerTile(Rack rack) {
+		this.rackView.display(rack);
+		Console.message("Veuillez entrer l'indice de la tuile : ",false);
+		int indice = Console.askInt(STOP_VALUE, rack.size());
 		
-		Tile tile = rack.removeTile(indice-1);
-		
-		
-		if (tile.isJoker()) {
-			char jokerLetter = Console.askJokerLetter();
-			tile.letter(Letters.valueOf(String.valueOf(jokerLetter)));
+		if(indice != STOP_VALUE) {
+			Tile tile = rack.removeTile(indice-1);
 			
+			if (tile.isJoker()) {
+				char jokerLetter = Console.askJokerLetter();
+				tile.letter(Letters.valueOf(String.valueOf(jokerLetter)));
+			}
+			return tile;
 		}
-		return tile;
+		return null;
 	}
-	return null;
-	
-}
 
     private boolean isMovesValid(List<Move> playerMoves) {
         boolean tileOnStars = false;
@@ -293,29 +288,35 @@ private Tile answerTile(Rack rack) {
     }
 
     private void fillPlayerRack(Player player) {
-        player.fillRack(this.bagOfTiles);
+    	Rack playerRack = player.rack();
+        try {
+			while (!playerRack.isFull() && bagOfTiles.drawTile() != null) {
+			    Tile tile = bagOfTiles.drawTile();
+			    if (tile != null) {
+			    	playerRack.addTile(tile);
+			    }
+			}
+		} catch (EmptyBagException e) {
+			e.printStackTrace();
+		}
     }
-
+    
     private void exchangeTiles(Player player) {
     	Rack rack = player.rack();
-        int input;
-        List<Integer> indices = new ArrayList<>();
-        Console.title("Pour remplacez des éléments, entrez les indices un à un puis écrivez " + STOP_VALUE + " pour arrêter");
-        Console.message("Rack de " + player.name() + " : ", false);
-    	this.rackView.display(rack);
-        do {
-            Console.message("Indice de la tuile à remplacer : ", false);
-            input = Console.askInt(STOP_VALUE, Rack.MAX_TILES);
+    	Integer input;
+		do {
+			Console.message("Rack de " + player.name() + " : ", false);
+	    	this.rackView.display(rack);
+            Console.message("Indice de la tuile à remplacer ("+ STOP_VALUE +") pour arrêter : ", false);
+            input = Console.askInt(STOP_VALUE, rack.size());
             if (input != STOP_VALUE) {
-                if (indices.contains(input - 1)) {
-                    Console.message("ERREUR, veuillez rentrer un nombre différent de ceux déjà entrés. ", false);
-                } else {
-                    indices.add(input - 1);
-                }
+                Tile tile = rack.removeTile(input-1);
+                this.bagOfTiles.add(tile);
             }
         } while (input != STOP_VALUE);
-
-        player.exchangeTiles(this.bagOfTiles, indices);
+		fillPlayerRack(player);
     }
+    
+    
     
 }
