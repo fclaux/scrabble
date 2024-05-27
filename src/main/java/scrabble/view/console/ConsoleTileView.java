@@ -33,7 +33,7 @@ public class ConsoleTileView implements TileView {
         if (tile.isJoker()) {
             return String.format("%-3s", tile.letter() + subscriptDigits[0]);
         } else {
-            return String.format("%-3s", tile.letter() + subscriptDigits[tile.letter().getValue()]);
+            return String.format("%-3s", tile.letter() + subscriptDigits[tile.letter().value()]);
         }
     }
 

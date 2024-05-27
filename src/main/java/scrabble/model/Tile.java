@@ -19,7 +19,7 @@ public class Tile {
 		return letter;
 	}
 
-	public void setLetter(Letters letter) {
+	public void letter(Letters letter) {
 		this.letter = letter;
 	}
 	
