@@ -8,8 +8,8 @@ public class ConsolePlayerView implements PlayerView {
 
 	@Override
 	public void display(Player player) {
-		Console.message("Nom = " + player.getName(), true);
-		Console.message("Score = " + player.getScore(), true);
+		Console.message("Nom = " + player.name(), true);
+		Console.message("Score = " + player.score(), true);
 	}
 
 }

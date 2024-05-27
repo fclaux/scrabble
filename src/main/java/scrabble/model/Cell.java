@@ -9,11 +9,11 @@ public class Cell {
 		this.effect=effect;
 	}
 
-	public Tile getTile() {
+	public Tile tile() {
 		return tile;
 	}
 
-	public Effects getEffect() {
+	public Effects effect() {
 		return effect;
 	}
 
@@ -21,7 +21,7 @@ public class Cell {
 		return this.tile == null;
 	}
 	
-	public void setTile(Tile tile) {
+	public void tile(Tile tile) {
 		this.tile=tile;
 	}
 	

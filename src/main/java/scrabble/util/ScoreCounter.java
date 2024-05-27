@@ -28,7 +28,7 @@ public class ScoreCounter {
         Set<Cell> processedCells = new HashSet<>();
 
         for (Move move : moves) {
-            if (!processedCells.contains(gameBoard.getCell(move.getRow(), move.getCol()))) {
+            if (!processedCells.contains(gameBoard.cell(move.row(), move.col()))) {
                 List<Cell> horizontalWord = getWord(move, gameBoard, true);
                 if (horizontalWord.size() > 1) {
                     words.add(horizontalWord);
@@ -48,11 +48,11 @@ public class ScoreCounter {
 
     private static List<Cell> getWord(Move move, GameBoard gameBoard, boolean isHorizontal) throws IndexOutOfBoardException {
         List<Cell> word = new ArrayList<>();
-        int row = move.getRow();
-        int col = move.getCol();
+        int row = move.row();
+        int col = move.col();
 
         while ((isHorizontal ? col > 0 : row > 0) && 
-               !gameBoard.getCell(isHorizontal ? row : row - 1, isHorizontal ? col - 1 : col).isEmpty()) {
+               !gameBoard.cell(isHorizontal ? row : row - 1, isHorizontal ? col - 1 : col).isEmpty()) {
             if (isHorizontal) {
                 col--;
             } else {
@@ -61,8 +61,8 @@ public class ScoreCounter {
         }
 
         while ((isHorizontal ? col < GameBoard.SIZE_GRID : row < GameBoard.SIZE_GRID) && 
-               !gameBoard.getCell(row, col).isEmpty()) {
-            word.add(gameBoard.getCell(row, col));
+               !gameBoard.cell(row, col).isEmpty()) {
+            word.add(gameBoard.cell(row, col));
             if (isHorizontal) {
                 col++;
             } else {
@@ -79,15 +79,15 @@ public class ScoreCounter {
         int tileScore;
 
         for (Cell cell : cells) {
-            Tile tile = cell.getTile();
+            Tile tile = cell.tile();
             if(tile.isJoker()) {
             	tileScore = 0;
             }
             else{
-            	tileScore = tile.letter().getValue();
+            	tileScore = tile.letter().value();
             }
          
-            switch (cell.getEffect()) {
+            switch (cell.effect()) {
                 case DOUBLE_LETTER:
                     tileScore *= 2;
                     break;

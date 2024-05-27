@@ -56,7 +56,7 @@ public class BagOfTiles {
         }
     }
     
-    public List<Tile> getTiles() {
+    public List<Tile> tiles() {
 		return tiles;
 	}
     
@@ -79,7 +79,7 @@ public class BagOfTiles {
         return tiles.isEmpty();
     }
 
-    public int getRemainingTilesCount() {
+    public int remainingTilesCount() {
         return tiles.size();
     }
   

@@ -11,15 +11,15 @@ public class Move {
         this.tile = tile;
     }
 
-    public int getRow() {
+	public int row() {
         return row;
     }
 
-    public int getCol() {
+    public int col() {
         return col;
     }
 
-    public Tile getTile() {
+    public Tile tile() {
         return tile;
     }
 }

@@ -11,11 +11,11 @@ public class ConsoleCellView implements CellView {
 	public void display(Cell cell) {
 		if (!cell.isEmpty()) {
         	ConsoleTileView tileView = new ConsoleTileView();
-        	tileView.display(cell.getTile(), true);
+        	tileView.display(cell.tile(), true);
         }
         else {
             String backgroundColor;
-            switch (cell.getEffect()) {
+            switch (cell.effect()) {
                 case STARS:
                 	backgroundColor = ConsoleColor.YELLOW_BACKGROUND;
                     break;
@@ -37,7 +37,7 @@ public class ConsoleCellView implements CellView {
                     break;
             }
             
-            Console.message(backgroundColor +" " + cell.getEffect().getSymbol() + " "+ ConsoleColor.RESET, false);
+            Console.message(backgroundColor +" " + cell.effect().symbol() + " "+ ConsoleColor.RESET, false);
 
 	}
 	}

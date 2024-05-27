@@ -24,7 +24,7 @@ public class ConsoleGameBoardView implements GameBoardView {
             for (int j = 1; j <= GameBoard.SIZE_GRID; j++) {
                 Cell cell = null;
 				try {
-					cell = gameBoard.getCell(i,j);
+					cell = gameBoard.cell(i,j);
 				} catch (IndexOutOfBoardException e) {
 					e.printStackTrace();
 				}
