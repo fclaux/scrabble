@@ -48,4 +48,8 @@ public class Rack {
 	public boolean isEmpty() {
 		return this.tiles.isEmpty();
 	}
+	
+	public boolean isFull() {
+        return tiles.size() >= MAX_TILES;
+    }
 }

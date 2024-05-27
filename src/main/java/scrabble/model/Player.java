@@ -1,11 +1,5 @@
 package scrabble.model;
 
-import java.util.Collections;
-import java.util.List;
-
-import scrabble.gui.Console;
-import scrabble.util.EmptyBagException;
-
 public class Player {
     private final String name;
     private int score;
@@ -31,28 +25,6 @@ public class Player {
 
     public Rack rack() {
         return this.rack;
-    }
-    
-    public void fillRack(BagOfTiles bagOfTiles) {
-        while(this.rack.tiles().size() < Rack.MAX_TILES) {
-            try {
-                this.rack.addTile(bagOfTiles.drawTile());
-            } catch (EmptyBagException e) {
-                Console.message("Le sac est vide, vous ne pouvez plus piocher", true);
-                break;
-            }
-        }
-    }
-    
-    public void exchangeTiles(BagOfTiles bagOfTiles, List<Integer> indices) {
-        Collections.sort(indices, Collections.reverseOrder());
-        for (int index : indices) {
-            if (index >= 0 && index < Rack.MAX_TILES) {
-                bagOfTiles.add(this.rack.removeTile(index));
-            }
-        }
-        this.fillRack(bagOfTiles);
-        bagOfTiles.shuffle();
     }
     
     public void addTileInRack(Tile tile) {
