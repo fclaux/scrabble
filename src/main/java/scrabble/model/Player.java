@@ -17,24 +17,24 @@ public class Player {
         this.rack = new Rack();
     }
     
-    public int getScore() {
+    public int score() {
         return score;
     }
     
-    public void setScore(int score) {
+    public void score(int score) {
         this.score = score;
     }
     
-    public String getName() {
+    public String name() {
         return name;
     }
 
-    public Rack getRack() {
+    public Rack rack() {
         return this.rack;
     }
     
     public void fillRack(BagOfTiles bagOfTiles) {
-        while(this.rack.getTiles().size() < Rack.MAX_TILES) {
+        while(this.rack.tiles().size() < Rack.MAX_TILES) {
             try {
                 this.rack.addTile(bagOfTiles.drawTile());
             } catch (EmptyBagException e) {

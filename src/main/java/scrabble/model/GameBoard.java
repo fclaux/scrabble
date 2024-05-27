@@ -4,7 +4,7 @@ import scrabble.util.IndexOutOfBoardException;
 
 public class GameBoard {
 	public static final int SIZE_GRID = 15;
-	public static final int MIDDLE_CASE = 8;
+	public static final int MIDDLE_CASE = calculateMiddleCase(SIZE_GRID);
 	
 	private Cell[][] cells;
 	
@@ -13,8 +13,12 @@ public class GameBoard {
         initializeEmptyBoard();
     }
 	
+	private static int calculateMiddleCase(int size) {
+        return size / 2 + (size % 2 == 0 ? 0 : 1);
+    }
+	
 	private void initializeEmptyBoard() {
-		Effects[][] effectsGrid = {
+		Effects[][] effectsGrid15 = {
 	        {Effects.TRIPLE_WORD, Effects.NONE, Effects.NONE, Effects.DOUBLE_LETTER, Effects.NONE, Effects.NONE, Effects.NONE, Effects.TRIPLE_WORD, Effects.NONE, Effects.NONE, Effects.NONE, Effects.DOUBLE_LETTER, Effects.NONE, Effects.NONE, Effects.TRIPLE_WORD},
 	        {Effects.NONE, Effects.DOUBLE_WORD, Effects.NONE, Effects.NONE, Effects.NONE, Effects.TRIPLE_LETTER, Effects.NONE, Effects.NONE, Effects.NONE, Effects.TRIPLE_LETTER, Effects.NONE, Effects.NONE, Effects.NONE, Effects.DOUBLE_WORD, Effects.NONE},
 	        {Effects.NONE, Effects.NONE, Effects.DOUBLE_WORD, Effects.NONE, Effects.NONE, Effects.NONE, Effects.DOUBLE_LETTER, Effects.NONE, Effects.DOUBLE_LETTER, Effects.NONE, Effects.NONE, Effects.NONE, Effects.DOUBLE_WORD, Effects.NONE, Effects.NONE},
@@ -34,16 +38,16 @@ public class GameBoard {
 
 	    for (int i = 0; i < SIZE_GRID; i++) {
 	        for (int j = 0; j < SIZE_GRID; j++) {
-	            cells[i][j] = new Cell(effectsGrid[i][j]);
+	            cells[i][j] = new Cell(effectsGrid15[i][j]);
 	        }
 	    }
     }
 
 	public void addTile(Tile tile, int row, int column) {
-		this.cells[row-1][column-1].setTile(tile);
+		this.cells[row-1][column-1].tile(tile);
 	}
 	
-	public Cell getCell(int row, int column) throws IndexOutOfBoardException {
+	public Cell cell(int row, int column) throws IndexOutOfBoardException {
 		if(row > SIZE_GRID || row <= 0) {
 			throw new IndexOutOfBoardException("Invalid row");	
 		}
@@ -55,9 +59,9 @@ public class GameBoard {
 		
 		
 	}
-	public Tile getTile(int row, int column) {
+	public Tile tile(int row, int column) {
         try {
-			return getCell(row,column).getTile();
+			return cell(row,column).tile();
 		} 
 		 catch (IndexOutOfBoardException e) {
 			e.printStackTrace();

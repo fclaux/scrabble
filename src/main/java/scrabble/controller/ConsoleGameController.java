@@ -42,8 +42,8 @@ public class ConsoleGameController {
         shuffleBagOfTiles();
         fillPlayerRack(player1);
         boolean running = true;
-        while (running && !player1.getRack().isEmpty()) {
-            menuView.displayMenu(this.gameBoard, player1.getRack());
+        while (running && !player1.rack().isEmpty()) {
+            menuView.displayMenu(this.gameBoard, player1.rack());
             int choice = getInput();
             switch (choice) {
                 case 1:
@@ -92,7 +92,7 @@ public class ConsoleGameController {
             addTilesToBoard(playerMoves);
             int score = ScoreCounter.calculateScoreForMoves(playerMoves, gameBoard);
             player.addScore(score);
-            Console.message("Score total :" + player.getScore(), true);
+            Console.message("Score total :" + player.score(), true);
             Console.message("Score pour ce coup :" + ScoreCounter.calculateScoreForMoves(playerMoves, gameBoard),true);
         } else {
             Console.message("Votre coup n'est pas valide ! ", true);
@@ -103,18 +103,18 @@ public class ConsoleGameController {
 
     private void addTilesToBoard(List<Move> playerMoves) {
         for (Move move : playerMoves) {
-            Tile tile = move.getTile();
-            int row = move.getRow();
-            int col = move.getCol();
+            Tile tile = move.tile();
+            int row = move.row();
+            int col = move.col();
             this.gameBoard.addTile(tile, row, col);
         }
     }
 
     private void returnTilesToRack(List<Move> playerMoves) {
         for (Move move : playerMoves) {
-            Tile tile = move.getTile();
+            Tile tile = move.tile();
             if (tile.isJoker()) {
-                tile.setLetter(Letters.JOKER);
+                tile.letter(Letters.JOKER);
             }
             this.player.addTileInRack(tile);
         }
@@ -129,9 +129,9 @@ public class ConsoleGameController {
         int col;
         int nbLetters = 0;
         boolean firstOccurence = true;
-        Rack rack = this.player.getRack();
+        Rack rack = this.player.rack();
         List<Move> moves = new ArrayList<>();
-    	Console.title("Tour du joueur " + player.getName());
+    	Console.title("Tour du joueur " + player.name());
     	Tile tile = answerTile(rack);	
 		if(tile  !=  null) {
 			Console.message("Veuillez entrer la ligne : ",false);
@@ -152,7 +152,7 @@ public class ConsoleGameController {
 				
 				if(tile != null) {
 					if (direction == Direction.HORIZONTAL) {
-						Cell cell = gameBoard.getCell(row, col + nbLetters);
+						Cell cell = gameBoard.cell(row, col + nbLetters);
 						
 						if(!cell.isEmpty()) {
 							nbLetters += 1;
@@ -161,7 +161,7 @@ public class ConsoleGameController {
 
 					}
 					else {
-						Cell cell = gameBoard.getCell(row + nbLetters, col);
+						Cell cell = gameBoard.cell(row + nbLetters, col);
 
 						if(!cell.isEmpty()) {
 							nbLetters += 1;
@@ -194,7 +194,7 @@ private Tile answerTile(Rack rack) {
 		
 		if (tile.isJoker()) {
 			char jokerLetter = Console.askJokerLetter();
-			tile.setLetter(Letters.valueOf(String.valueOf(jokerLetter)));
+			tile.letter(Letters.valueOf(String.valueOf(jokerLetter)));
 			
 		}
 		return tile;
@@ -215,12 +215,12 @@ private Tile answerTile(Rack rack) {
             return false;
         }
 
-        int firstRow = playerMoves.get(0).getRow();
-        int firstCol = playerMoves.get(0).getCol();
+        int firstRow = playerMoves.get(0).row();
+        int firstCol = playerMoves.get(0).col();
 
         for (Move move : playerMoves) {
-            int row = move.getRow();
-            int col = move.getCol();
+            int row = move.row();
+            int col = move.col();
 
             if (row != firstRow) {
                 allInSameRow = false;
@@ -234,15 +234,15 @@ private Tile answerTile(Rack rack) {
                     tileOnStars = true;
                 }
 
-                if (!this.gameBoard.getCell(row, col).isEmpty()) {
+                if (!this.gameBoard.cell(row, col).isEmpty()) {
                     Console.message("Une cellule (" + row + " , " + col + ") est déjà occupée", true);
                     tileOnOccupiedCell = true;
                 }
 
-                if (row > 1 && !this.gameBoard.getCell(row - 1, col).isEmpty() ||
-                    row < GameBoard.SIZE_GRID && !this.gameBoard.getCell(row + 1, col).isEmpty() ||
-                    col > 1 && !this.gameBoard.getCell(row, col - 1).isEmpty() ||
-                    col < GameBoard.SIZE_GRID && !this.gameBoard.getCell(row, col + 1).isEmpty()) {
+                if (row > 1 && !this.gameBoard.cell(row - 1, col).isEmpty() ||
+                    row < GameBoard.SIZE_GRID && !this.gameBoard.cell(row + 1, col).isEmpty() ||
+                    col > 1 && !this.gameBoard.cell(row, col - 1).isEmpty() ||
+                    col < GameBoard.SIZE_GRID && !this.gameBoard.cell(row, col + 1).isEmpty()) {
                     haveNearTile = true;
                 }
             } catch (IndexOutOfBoardException e) {
@@ -277,7 +277,7 @@ private Tile answerTile(Rack rack) {
         for (int i = 1; i <= GameBoard.SIZE_GRID; i++) {
             for (int j = 1; j <= GameBoard.SIZE_GRID; j++) {
                 try {
-                    if (!gameBoard.getCell(i, j).isEmpty()) {
+                    if (!gameBoard.cell(i, j).isEmpty()) {
                         return false;
                     }
                 } catch (IndexOutOfBoardException e) {
@@ -297,11 +297,11 @@ private Tile answerTile(Rack rack) {
     }
 
     private void exchangeTiles(Player player) {
-    	Rack rack = player.getRack();
+    	Rack rack = player.rack();
         int input;
         List<Integer> indices = new ArrayList<>();
         Console.title("Pour remplacez des éléments, entrez les indices un à un puis écrivez " + STOP_VALUE + " pour arrêter");
-        Console.message("Rack de " + player.getName() + " : ", false);
+        Console.message("Rack de " + player.name() + " : ", false);
     	this.rackView.display(rack);
         do {
             Console.message("Indice de la tuile à remplacer : ", false);
