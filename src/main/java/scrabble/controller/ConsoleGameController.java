@@ -34,7 +34,6 @@ public class ConsoleGameController {
         this.gameBoardView = new ConsoleGameBoardView();
         this.rackView = new ConsoleRackView();
         this.scanner = new Scanner(System.in);
-        new ScoreCounter();
     }
 
     public void startGame() throws IndexOutOfBoardException {
@@ -133,7 +132,7 @@ public class ConsoleGameController {
         Rack rack = this.player.getRack();
         List<Move> moves = new ArrayList<>();
     	Console.title("Tour du joueur " + player.getName());
-    	Tile tile = answerTile(player, rack);	
+    	Tile tile = answerTile(rack);	
 		if(tile  !=  null) {
 			Console.message("Veuillez entrer la ligne : ",false);
 			row = Console.askInt(1, GameBoard.SIZE_GRID);
@@ -149,7 +148,7 @@ public class ConsoleGameController {
 					direction = Console.askDirection();
 					firstOccurence = false;
 				}
-				tile = answerTile(player, rack);
+				tile = answerTile(rack);
 				
 				if(tile != null) {
 					if (direction == Direction.HORIZONTAL) {
@@ -183,7 +182,7 @@ public class ConsoleGameController {
 
     
 
-private Tile answerTile(Player player, Rack rack) {
+private Tile answerTile(Rack rack) {
 	this.rackView.display(rack);
 	Console.message("Veuillez entrer l'indice de la tuile : ",false);
 	int indice = Console.askInt(STOP_VALUE, rack.size());
@@ -299,12 +298,11 @@ private Tile answerTile(Player player, Rack rack) {
 
     private void exchangeTiles(Player player) {
     	Rack rack = player.getRack();
-    	ConsoleRackView rackView = new ConsoleRackView();
         int input;
         List<Integer> indices = new ArrayList<>();
         Console.title("Pour remplacez des éléments, entrez les indices un à un puis écrivez " + STOP_VALUE + " pour arrêter");
         Console.message("Rack de " + player.getName() + " : ", false);
-    	rackView.display(rack);
+    	this.rackView.display(rack);
         do {
             Console.message("Indice de la tuile à remplacer : ", false);
             input = Console.askInt(STOP_VALUE, Rack.MAX_TILES);
