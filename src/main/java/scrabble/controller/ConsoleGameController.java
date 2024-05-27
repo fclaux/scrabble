@@ -313,10 +313,8 @@ public class ConsoleGameController {
                 Tile tile = rack.removeTile(input-1);
                 this.bagOfTiles.add(tile);
             }
-        } while (input != STOP_VALUE);
+        } while ((input != STOP_VALUE)&&(!rack.isEmpty()));
 		fillPlayerRack(player);
     }
-    
-    
     
 }
