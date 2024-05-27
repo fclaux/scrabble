@@ -22,7 +22,6 @@ public class ConsoleGameController {
     private GameBoardView gameBoardView;
     private RackView rackView;
     private Scanner scanner;
-    private ScoreCounter scoreCounter;
     private boolean firstExchange = true;
 
     private static final int STOP_VALUE = 0;
@@ -35,7 +34,7 @@ public class ConsoleGameController {
         this.gameBoardView = new ConsoleGameBoardView();
         this.rackView = new ConsoleRackView();
         this.scanner = new Scanner(System.in);
-        this.scoreCounter = new ScoreCounter();
+        new ScoreCounter();
     }
 
     public void startGame() throws IndexOutOfBoardException {
