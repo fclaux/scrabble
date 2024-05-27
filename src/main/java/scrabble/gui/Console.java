@@ -3,6 +3,8 @@ package scrabble.gui;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
+import scrabble.model.Direction;
+
 public class Console {
 	
 	public static final String SEPARATOR_LINE = "-------------------------------------------------------------"; 
@@ -82,6 +84,20 @@ public class Console {
                 Console.message("Veuillez saisir une seule lettre valide.", true);
             }
         } while (true);
+    }
+    
+    public static Direction askDirection() {
+        int askDirection = 0;
+
+    	
+    	Console.message("Veuillez saisir la direction du mot, horizontal[1] ou vertical[2]", false);
+    	askDirection = Console.askInt(1,2);
+    	if(askDirection == 1 ) {
+    		return Direction.HORIZONTAL;
+    	}
+   	return Direction.VERTICAL;
+    	
+    	
     }
 
 	public static void lineReturn() {
