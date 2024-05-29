@@ -14,7 +14,7 @@ public class Rack {
     public List<Tile> tiles() {
 		return tiles;
 	}
-
+    
 	public void addTile(Tile tile) {
         if (tiles.size() < MAX_TILES) {
             tiles.add(tile);
