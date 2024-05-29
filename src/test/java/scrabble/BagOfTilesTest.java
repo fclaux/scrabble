@@ -25,8 +25,8 @@ public class BagOfTilesTest {
 	@Test
 	void get_tile_and_remainingTilesCount() {
 		List<Tile> listOfTiles = new ArrayList<>();
-		listOfTiles.addAll(bagOfTiles.getTiles());
+		listOfTiles.addAll(bagOfTiles.tiles());
 		assertEquals(102, listOfTiles.size());
-		assertEquals(102, bagOfTiles.getRemainingTilesCount());
+		assertEquals(102, bagOfTiles.remainingTilesCount());
 	}
 }

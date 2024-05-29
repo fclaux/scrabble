@@ -13,7 +13,7 @@ public class EffectsTest {
 		Cell cell_NONE = new Cell(Effects.NONE);
 		String effect_unicode;
 		
-		effect_unicode = cell_NONE.getEffect().getSymbol();
+		effect_unicode = cell_NONE.effect().symbol();
 		assertThat(effect_unicode).isEqualTo(" ");
 	}
 	
@@ -22,7 +22,7 @@ public class EffectsTest {
 		Cell cell_STARS = new Cell(Effects.STARS);
 		String effect_unicode;
 		
-		effect_unicode = cell_STARS.getEffect().getSymbol();
+		effect_unicode = cell_STARS.effect().symbol();
 		assertThat(effect_unicode).isEqualTo("\u2605");
 	}
 	
@@ -31,7 +31,7 @@ public class EffectsTest {
 		Cell cell_DOUBLE_LETTER = new Cell(Effects.DOUBLE_LETTER);
 		String effect_unicode;
 		
-		effect_unicode = cell_DOUBLE_LETTER.getEffect().getSymbol();
+		effect_unicode = cell_DOUBLE_LETTER.effect().symbol();
 		assertThat(effect_unicode).isEqualTo("\u25B3");
 	}
 	
@@ -40,7 +40,7 @@ public class EffectsTest {
 		Cell cell_TRIPLE_LETTER = new Cell(Effects.TRIPLE_LETTER);
 		String effect_unicode;
 		
-		effect_unicode = cell_TRIPLE_LETTER.getEffect().getSymbol();
+		effect_unicode = cell_TRIPLE_LETTER.effect().symbol();
 		assertThat(effect_unicode).isEqualTo("\u25B2");
 	}
 	
@@ -49,7 +49,7 @@ public class EffectsTest {
 		Cell cell_DOUBLE_WORD = new Cell(Effects.DOUBLE_WORD);
 		String effect_unicode;
 		
-		effect_unicode = cell_DOUBLE_WORD.getEffect().getSymbol();
+		effect_unicode = cell_DOUBLE_WORD.effect().symbol();
 		assertThat(effect_unicode).isEqualTo("\u25A1");
 	}
 	
@@ -58,7 +58,7 @@ public class EffectsTest {
 		Cell cell_TRIPLE_WORD = new Cell(Effects.TRIPLE_WORD);
 		String effect_unicode;
 		
-		effect_unicode = cell_TRIPLE_WORD.getEffect().getSymbol();
+		effect_unicode = cell_TRIPLE_WORD.effect().symbol();
 		assertThat(effect_unicode).isEqualTo("\u25A0");
 	}
 }

@@ -24,8 +24,8 @@ public class PlayerTest {
 	void get_and_set_score() {
 		int player_score;
 		
-		player.setScore(130);
-		player_score = player.getScore();
+		player.score(130);
+		player_score = player.score();
 		assertThat(player_score).isEqualTo(130);
 	}
 	
@@ -33,7 +33,7 @@ public class PlayerTest {
 	void get_name() {
 		String player_name;
 		
-		player_name = player.getName();
+		player_name = player.name();
 		assertThat(player_name).isEqualTo("Florian");
 	}
 	
