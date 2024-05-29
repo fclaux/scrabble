@@ -237,7 +237,7 @@ public class ConsoleGameController {
         boolean haveNearTile = false;
 
 
-        if (playerMoves.size() < 1) {
+        if (playerMoves.isEmpty()) {
             Console.message("vous devez jouer au moins 1 lettres si elle est adjacente à un mot déjà existant", true);
             return false;
         }
