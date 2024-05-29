@@ -12,7 +12,7 @@ import scrabble.model.Tile;
 
 public class ScoreCounter {
 
-    public static int calculateScoreForMoves(List<Move> moves, GameBoard gameBoard) throws IndexOutOfBoardException {
+    public int calculateScoreForMoves(List<Move> moves, GameBoard gameBoard) throws IndexOutOfBoardException {
         List<List<Cell>> words = getWordsFromMoves(moves, gameBoard);
         int totalScore = 0;
 
@@ -23,7 +23,7 @@ public class ScoreCounter {
         return totalScore;
     }
 
-    private static List<List<Cell>> getWordsFromMoves(List<Move> moves, GameBoard gameBoard) throws IndexOutOfBoardException {
+    private List<List<Cell>> getWordsFromMoves(List<Move> moves, GameBoard gameBoard) throws IndexOutOfBoardException {
         List<List<Cell>> words = new ArrayList<>();
         Set<Cell> processedCells = new HashSet<>();
 
@@ -46,7 +46,7 @@ public class ScoreCounter {
         return words;
     }
 
-    private static List<Cell> getWord(Move move, GameBoard gameBoard, boolean isHorizontal) throws IndexOutOfBoardException {
+    private List<Cell> getWord(Move move, GameBoard gameBoard, boolean isHorizontal) throws IndexOutOfBoardException {
         List<Cell> word = new ArrayList<>();
         int row = move.row();
         int col = move.col();
@@ -73,7 +73,7 @@ public class ScoreCounter {
         return word;
     }
 
-    private static int calculateScoreForWord(List<Cell> cells) {
+    private int calculateScoreForWord(List<Cell> cells) {
         int totalScore = 0;
         int wordMultiplier = 1;
         int tileScore;
@@ -81,12 +81,11 @@ public class ScoreCounter {
         for (Cell cell : cells) {
             Tile tile = cell.tile();
             if(tile.isJoker()) {
-            	tileScore = 0;
+                tileScore = 0;
+            } else {
+                tileScore = tile.letter().value();
             }
-            else{
-            	tileScore = tile.letter().value();
-            }
-         
+/*/
             switch (cell.effect()) {
                 case DOUBLE_LETTER:
                     tileScore *= 2;
@@ -95,10 +94,10 @@ public class ScoreCounter {
                     tileScore *= 3;
                     break;
                 case DOUBLE_WORD:
-                	wordMultiplier *= 2;
+                    wordMultiplier *= 2;
                     break;
                 case STARS:
-                    wordMultiplier *= 2; 	
+                    wordMultiplier *= 2;
                     break;
                 case TRIPLE_WORD:
                     wordMultiplier *= 3;
@@ -106,7 +105,7 @@ public class ScoreCounter {
                 default:
                     break;
             }
-
+/*/
             totalScore += tileScore;
         }
 
