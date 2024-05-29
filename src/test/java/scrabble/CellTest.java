@@ -36,7 +36,7 @@ class CellTest {
 	@Test
 	void get_effect_of_cell() {
 		Effects cell_effect;
-		cell_effect = cell.getEffect();
+		cell_effect = cell.effect();
 		assertEquals(Effects.NONE, cell_effect);
 	}
 	
@@ -44,8 +44,8 @@ class CellTest {
 	void get_tile_in_cell() {
 		Tile tile = new Tile(Letters.M);
 		Tile cell_tile;
-		cell.setTile(tile);
-		cell_tile = cell.getTile();
+		cell.tile(tile);
+		cell_tile = cell.tile();
 		assertEquals(tile, cell_tile);
 	}
 	
