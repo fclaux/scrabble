@@ -148,12 +148,9 @@ public class ConsoleGameController {
             
             tile = answerTile(rack);
             if (tile != null) {
+       
+                placeAWord(rack,tile,nbLetters,moves,row,col);
                 
-                if (isAdjacentToExistingWord(row, col) || isFirstMove()) {
-                    placeAWord(rack,tile,nbLetters,moves,row,col);
-                } else {
-                    Console.message("La lettre doit être adjacente à un mot existant.", true);
-                }
             }
             
             
@@ -190,7 +187,6 @@ public class ConsoleGameController {
             moves.add(new Move(row + nbLetters, col, tile));
         }
     	
-    	nbLetters += 1;
     }
     
     private void placeAWord(Rack rack,Tile tile ,int nbLetters,List<Move> moves, int row, int col) throws IndexOutOfBoardException{
@@ -202,12 +198,15 @@ public class ConsoleGameController {
             if (firstOccurrence) {
             	direction = askForDirection();
             	placeATile(moves,direction,row,col,nbLetters,tile);
+            	nbLetters = nbLetters + 1;
                 firstOccurrence = false;
             }
             tile = answerTile(rack);
 
             if (tile != null) {
             	placeATile(moves,direction,row,col,nbLetters,tile);
+            	nbLetters += 1;
+
             }
         }
     }
@@ -235,6 +234,8 @@ public class ConsoleGameController {
         boolean tileOnOccupiedCell = false;
         boolean allInSameRow = true;
         boolean allInSameCol = true;
+        boolean haveNearTile = false;
+
 
         if (playerMoves.size() < 1) {
             Console.message("vous devez jouer au moins 1 lettres si elle est adjacente à un mot déjà existant", true);
@@ -265,6 +266,11 @@ public class ConsoleGameController {
                     Console.message("Une cellule (" + row + " , " + col + ") est déjà occupée", true);
                     tileOnOccupiedCell = true;
                 }
+                
+                if (isAdjacentToExistingWord(row, col)) {
+                        haveNearTile = true;
+                    }
+
 
             } catch (IndexOutOfBoardException e) {
                 e.printStackTrace();
@@ -275,6 +281,13 @@ public class ConsoleGameController {
             Console.message("C'est le premier tour et vous ne jouez pas sur l'étoile", true);
             return false;
         }
+        
+
+        if (!isFirstMove() && !haveNearTile) {
+            Console.message("C'est pas le premier tour et aucune tuile n'est connectée", true);
+            return false;
+        }
+
         
         if (isFirstMove() && playerMoves.size() == 1) {
         	Console.message("Vous devez placer au moin 2 tuiles lors du premier coup de la partie", true);
