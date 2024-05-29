@@ -5,7 +5,15 @@ import java.util.List;
 import java.util.Scanner;
 
 import scrabble.gui.Console;
-import scrabble.model.*;
+import scrabble.model.BagOfTiles;
+import scrabble.model.Cell;
+import scrabble.model.Direction;
+import scrabble.model.GameBoard;
+import scrabble.model.Letters;
+import scrabble.model.Move;
+import scrabble.model.Player;
+import scrabble.model.Rack;
+import scrabble.model.Tile;
 import scrabble.util.EmptyBagException;
 import scrabble.util.IndexOutOfBoardException;
 import scrabble.util.ScoreCounter;
@@ -24,6 +32,7 @@ public class ConsoleGameController {
     private RackView rackView;
     private Scanner scanner;
     private boolean firstExchange = true;
+    private ScoreCounter scoreCounter;
 
     private static final int STOP_VALUE = 0;
 
@@ -35,6 +44,7 @@ public class ConsoleGameController {
         this.gameBoardView = new ConsoleGameBoardView();
         this.rackView = new ConsoleRackView();
         this.scanner = new Scanner(System.in);
+        this.scoreCounter = new ScoreCounter();
     }
 
     public void startGame() throws IndexOutOfBoardException {
@@ -49,7 +59,6 @@ public class ConsoleGameController {
             switch (choice) {
                 case 1:
                     play();
-                    
                     fillPlayerRack(player1);
                     break;
                 case 2:
@@ -91,16 +100,15 @@ public class ConsoleGameController {
             Console.message("Votre coup est valide ! ", true);
             this.firstExchange = true;
             addTilesToBoard(playerMoves);
-            int score = ScoreCounter.calculateScoreForMoves(playerMoves, gameBoard);
+            int score = scoreCounter.calculateScoreForMoves(playerMoves, gameBoard);
             player.addScore(score);
             Console.message("Score total :" + player.score(), true);
-            Console.message("Score pour ce coup :" + ScoreCounter.calculateScoreForMoves(playerMoves, gameBoard),true);
+            Console.message("Score pour ce coup :" + score, true);
         } else {
             Console.message("Votre coup n'est pas valide ! ", true);
             returnTilesToRack(playerMoves);
         }
     }
-
 
     private void addTilesToBoard(List<Move> playerMoves) {
         for (Move move : playerMoves) {
@@ -120,83 +128,90 @@ public class ConsoleGameController {
             this.player.addTileInRack(tile);
         }
     }
-    
 
     private List<Move> getPlayerMoves() throws IndexOutOfBoardException {
-    	Direction direction = Direction.HORIZONTAL;
         int row;
         int col;
         int nbLetters = 0;
-        boolean firstOccurence = true;
         Rack rack = this.player.rack();
         List<Move> moves = new ArrayList<>();
-    	Console.title("Tour du joueur " + player.name());
-    	Tile tile = answerTile(rack);	
-		if(tile  !=  null) {
-			Console.message("Veuillez entrer la ligne : ",false);
-			row = Console.askInt(1, GameBoard.SIZE_GRID);
-			Console.message("Veuillez entrer la colonne : ",false);
-			col = Console.askInt(1, GameBoard.SIZE_GRID);
+        Console.title("Tour du joueur " + player.name());
+        Tile tile = answerTile(rack);
+        if (tile != null) {
+            Console.message("Veuillez entrer la ligne : ", false);
+            row = Console.askInt(1, GameBoard.SIZE_GRID);
+            Console.message("Veuillez entrer la colonne : ", false);
+            col = Console.askInt(1, GameBoard.SIZE_GRID);
 
-	
-			moves.add(new Move(row, col, tile));
-			nbLetters += 1;
-			
-			while(tile  != null && !rack.isEmpty()) {
-				if (firstOccurence) {
-					direction = Console.askDirection();
-					firstOccurence = false;
-				}
-				tile = answerTile(rack);
-				
-				if(tile != null) {
-					if (direction == Direction.HORIZONTAL) {
-						Cell cell = gameBoard.cell(row, col + nbLetters);
-						
-						if(!cell.isEmpty()) {
-							nbLetters += 1;
-						}
-						moves.add(new Move(row, col + nbLetters, tile));
-
-					}
-					else {
-						Cell cell = gameBoard.cell(row + nbLetters, col);
-
-						if(!cell.isEmpty()) {
-							nbLetters += 1;
-						}
-						
-						moves.add(new Move(row + nbLetters,col , tile));				
-					}
-							
-					nbLetters += 1;
-				}
-			}
-				
-				
-		}
+            moves.add(new Move(row, col, tile));
+            nbLetters += 1;
+            
+            placeAWord(rack,tile,nbLetters,moves,row,col);
+            
+        }
         return moves;
+    }
+    
+    private Direction askForDirection() {
+        return Console.askDirection();
 
     }
+    
+    public int jumpOverATile(Cell cell, int nbLetters) {
+    	if (!cell.isEmpty()) {
+            return nbLetters += 1;
+        }
+    	return nbLetters;
+    }
+    
+    private void placeAWord(Rack rack,Tile tile ,int nbLetters,List<Move> moves, int row, int col) throws IndexOutOfBoardException{
+    	Direction direction = null;
+        boolean firstOccurrence = true;
+    	
+    	
+    	while (tile != null && !rack.isEmpty()) {
+            if (firstOccurrence) {
+            	direction = askForDirection();
+                firstOccurrence = false;
+            }
+            tile = answerTile(rack);
 
+            if (tile != null) {
+                if (direction == Direction.HORIZONTAL) {
+                    Cell cell = gameBoard.cell(row, col + nbLetters);
+
+                    nbLetters = jumpOverATile(cell,nbLetters);
+                    moves.add(new Move(row, col + nbLetters, tile));
+
+                } else {
+                    Cell cell = gameBoard.cell(row + nbLetters, col);
+                    nbLetters = jumpOverATile(cell,nbLetters);
+
+                    moves.add(new Move(row + nbLetters, col, tile));
+                }
+
+                nbLetters += 1;
+            }
+        }
+    }
     
 
-	private Tile answerTile(Rack rack) {
-		this.rackView.display(rack);
-		Console.message("Veuillez entrer l'indice de la tuile : ",false);
-		int indice = Console.askInt(STOP_VALUE, rack.size());
-		
-		if(indice != STOP_VALUE) {
-			Tile tile = rack.removeTile(indice-1);
-			
-			if (tile.isJoker()) {
-				char jokerLetter = Console.askJokerLetter();
-				tile.letter(Letters.valueOf(String.valueOf(jokerLetter)));
-			}
-			return tile;
-		}
-		return null;
-	}
+    private Tile answerTile(Rack rack) {
+        this.rackView.display(rack);
+        Console.message("Veuillez entrer l'indice de la tuile : ", false);
+        int indice = Console.askInt(STOP_VALUE, rack.size());
+
+        if (indice != STOP_VALUE) {
+            Tile tile = rack.removeTile(indice - 1);
+
+            if (tile.isJoker()) {
+                char jokerLetter = Console.askJokerLetter();
+                tile.letter(Letters.valueOf(String.valueOf(jokerLetter)));
+            }
+            return tile;
+        }
+        return null;
+    }
 
     private boolean isMovesValid(List<Move> playerMoves) {
         boolean tileOnStars = false;
@@ -205,8 +220,8 @@ public class ConsoleGameController {
         boolean allInSameRow = true;
         boolean allInSameCol = true;
 
-        if (playerMoves.size() < 2) {
-            Console.message("vous devez jouer au moins 2 lettres", true);
+        if (playerMoves.size() < 1) {
+            Console.message("vous devez jouer au moins 1 lettres", true);
             return false;
         }
 
@@ -288,33 +303,34 @@ public class ConsoleGameController {
     }
 
     private void fillPlayerRack(Player player) {
-    	Rack playerRack = player.rack();
+        Rack playerRack = player.rack();
         try {
-			while (!playerRack.isFull() && bagOfTiles.drawTile() != null) {
-			    Tile tile = bagOfTiles.drawTile();
-			    if (tile != null) {
-			    	playerRack.addTile(tile);
-			    }
-			}
-		} catch (EmptyBagException e) {
-			e.printStackTrace();
-		}
+            while (!playerRack.isFull() && bagOfTiles.drawTile() != null) {
+                Tile tile = bagOfTiles.drawTile();
+                if (tile != null) {
+                    playerRack.addTile(tile);
+                }
+            }
+        } catch (EmptyBagException e) {
+            e.printStackTrace();
+        }
     }
-    
+
     private void exchangeTiles(Player player) {
-    	Rack rack = player.rack();
-    	Integer input;
-		do {
-			Console.message("Rack de " + player.name() + " : ", false);
-	    	this.rackView.display(rack);
-            Console.message("Indice de la tuile à remplacer ("+ STOP_VALUE +") pour arrêter : ", false);
+        Rack rack = player.rack();
+        Integer input;
+        do {
+            Console.message("Rack de " + player.name() + " : ", false);
+            this.rackView.display(rack);
+            Console.message("Indice de la tuile à remplacer (" + STOP_VALUE + ") pour arrêter : ", false);
             input = Console.askInt(STOP_VALUE, rack.size());
             if (input != STOP_VALUE) {
-                Tile tile = rack.removeTile(input-1);
+                Tile tile = rack.removeTile(input - 1);
                 this.bagOfTiles.add(tile);
             }
-        } while ((input != STOP_VALUE)&&(!rack.isEmpty()));
-		fillPlayerRack(player);
+        } while ((input != STOP_VALUE) && (!rack.isEmpty()));
+        fillPlayerRack(player);
     }
+    
     
 }
