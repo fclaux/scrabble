@@ -1,14 +1,13 @@
 package scrabble;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import scrabble.model.*;
 
-public class PlayerTest {
+class PlayerTest {
 
 	Player player;
 	BagOfTiles bagOfTiles;
