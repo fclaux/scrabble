@@ -17,7 +17,7 @@ class RackTest {
     private Tile tileB;
 
     @BeforeEach
-    public void setUp() {
+    public void set_up() {
         rack = new Rack();
         tileA = new Tile(Letters.A);
         tileB = new Tile(Letters.B);

@@ -15,7 +15,7 @@ class CellTest {
 	private Cell cell;
 	
 	@BeforeEach
-	void setUp() {
+	void set_up() {
         cell = new Cell(Effects.NONE);
     }
 	

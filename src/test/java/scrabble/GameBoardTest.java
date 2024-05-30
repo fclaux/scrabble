@@ -14,7 +14,7 @@ class GameBoardTest {
 	private GameBoard gameBoard;
 
     @BeforeEach
-    void setUp() {
+    void set_up() {
         gameBoard = new GameBoard();
     }
 
