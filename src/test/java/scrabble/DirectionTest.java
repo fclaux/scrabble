@@ -7,7 +7,7 @@ import scrabble.model.Direction;
 
 class DirectionTest {
 	@Test
-    void testDirectionValues() {
+    void test_direction_values() {
         Direction[] expectedValues = { Direction.HORIZONTAL, Direction.VERTICAL };
 
         Direction[] actualValues = Direction.values();
@@ -15,13 +15,13 @@ class DirectionTest {
     }
 
     @Test
-    void testDirectionValueOf() {
+    void test_direction_valueOf() {
         assertEquals(Direction.HORIZONTAL, Direction.valueOf("HORIZONTAL"));
         assertEquals(Direction.VERTICAL, Direction.valueOf("VERTICAL"));
     }
 
     @Test
-    void testDirectionValueOfInvalid() {
+    void test_direction_valueOf_invalid() {
     	assertThrows(IllegalArgumentException.class, () -> {
     	    Direction.valueOf("INVALID");
     	});
