@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import scrabble.model.*;
 
-public class TileTest {
+class TileTest {
 
 	Tile tile;
 	
