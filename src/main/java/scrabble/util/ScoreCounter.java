@@ -13,7 +13,7 @@ import scrabble.model.Tile;
 public class ScoreCounter {
 
     public int calculateScoreForMoves(List<Move> moves, GameBoard gameBoard) throws IndexOutOfBoardException {
-        List<List<Cell>> words = getWordsFromMoves(moves, gameBoard);
+        List<List<Cell>> words = findWordsFromMoves(moves, gameBoard);
         int totalScore = 0;
 
         for (List<Cell> word : words) {
@@ -23,7 +23,7 @@ public class ScoreCounter {
         return totalScore;
     }
 
-    private List<List<Cell>> getWordsFromMoves(List<Move> moves, GameBoard gameBoard) throws IndexOutOfBoardException {
+    private List<List<Cell>> findWordsFromMoves(List<Move> moves, GameBoard gameBoard) throws IndexOutOfBoardException {
         List<List<Cell>> words = new ArrayList<>();
         Set<Cell> processedCells = new HashSet<>();
 
