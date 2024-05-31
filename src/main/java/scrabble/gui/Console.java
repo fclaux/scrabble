@@ -60,18 +60,25 @@ public class Console {
             try {
                 response = scanner.nextInt();
                 scanner.nextLine();
-            } catch (NoSuchElementException e) {
-                Console.message("Veuillez saisir un nombre", true);
+            }
+            catch (NoSuchElementException e) {
+                Console.message("Veuillez saisir un nombre",true);
                 scanner.next();
-            } 
+            }
+             
 
-            if (response < min || response > max) {
+            if (response == null || response < min || response > max) {
                 Console.message("Saisie incorrect veuillez réessayer", true);
                 response = null;
             }
         }
         return response;
     }
+    
+    
+    
+    
+
     
     public static char askJokerLetter() {
         Console.message("Vous avez joué un joker. Veuillez saisir la lettre que vous souhaitez attribuer au joker:", true);
