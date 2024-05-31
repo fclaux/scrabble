@@ -158,22 +158,28 @@ public class ConsoleGameController {
     }
     
     public int jumpOverATile(Cell cell, int nbLetters) {
-    	if (!cell.isEmpty()) {
-            return nbLetters += 1;
-        }
-    	return nbLetters;
+         return nbLetters += 1;
+        
     }
     
     private void placeATile(List<Move> moves, Direction direction, int row, int col, int nbLetters, Tile tile) throws IndexOutOfBoardException {
     	if (direction == Direction.HORIZONTAL) {
             Cell cell = gameBoard.cell(row, col + nbLetters);
-
-            nbLetters = jumpOverATile(cell,nbLetters);
+            while(!cell.isEmpty()) {
+                nbLetters = jumpOverATile(cell,nbLetters);
+                cell = gameBoard.cell(row + nbLetters, col);
+            }       
+            
             moves.add(new Move(row, col + nbLetters, tile));
 
         } else {
+        	
             Cell cell = gameBoard.cell(row + nbLetters, col);
-            nbLetters = jumpOverATile(cell,nbLetters);
+            
+            while(!cell.isEmpty()) {
+                nbLetters = jumpOverATile(cell,nbLetters);
+                cell = gameBoard.cell(row + nbLetters, col);
+            }
 
             moves.add(new Move(row + nbLetters, col, tile));
         }
