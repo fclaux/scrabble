@@ -2,7 +2,6 @@ package scrabble.controller;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 import scrabble.gui.Console;
 import scrabble.model.BagOfTiles;
@@ -30,7 +29,6 @@ public class ConsoleGameController {
     private ConsoleMenuView menuView;
     private GameBoardView gameBoardView;
     private RackView rackView;
-    private Scanner scanner;
     private boolean firstExchange = true;
     private ScoreCounter scoreCounter;
 
@@ -43,7 +41,6 @@ public class ConsoleGameController {
         this.menuView = new ConsoleMenuView();
         this.gameBoardView = new ConsoleGameBoardView();
         this.rackView = new ConsoleRackView();
-        this.scanner = new Scanner(System.in);
         this.scoreCounter = new ScoreCounter();
     }
 
@@ -55,7 +52,7 @@ public class ConsoleGameController {
         boolean running = true;
         while (running && !player1.rack().isEmpty()) {
             menuView.displayMenu(this.gameBoard, player1.rack());
-            int choice = getInput();
+            int choice = Console.askInt(1,3);
             switch (choice) {
                 case 1:
                     play();
@@ -79,13 +76,7 @@ public class ConsoleGameController {
         Console.message("Merci d'avoir joué !", true);
     }
 
-    private int getInput() {
-        while (!scanner.hasNextInt()) {
-            Console.message("Veuillez entrer un nombre valide.", true);
-            scanner.next();
-        }
-        return scanner.nextInt();
-    }
+
 
     private void play() throws IndexOutOfBoardException {
         gameBoardView.display(gameBoard);
