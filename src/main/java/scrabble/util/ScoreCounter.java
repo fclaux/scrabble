@@ -1,10 +1,9 @@
 package scrabble.util;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
+import scrabble.gui.Console;
 import scrabble.model.Cell;
 import scrabble.model.GameBoard;
 import scrabble.model.Move;
@@ -25,23 +24,20 @@ public class ScoreCounter {
 
     private List<List<Cell>> findWordsFromMoves(List<Move> moves, GameBoard gameBoard) throws IndexOutOfBoardException {
         List<List<Cell>> words = new ArrayList<>();
-        Set<Cell> processedCells = new HashSet<>();
 
         for (Move move : moves) {
-            if (!processedCells.contains(gameBoard.cell(move.row(), move.col()))) {
-                List<Cell> horizontalWord = getWord(move, gameBoard, true);
-                if (horizontalWord.size() > 1) {
-                    words.add(horizontalWord);
-                    processedCells.addAll(horizontalWord);
-                }
+            List<Cell> horizontalWord = getWord(move, gameBoard, true);
+            if (horizontalWord.size() > 1 && !words.contains(horizontalWord)) {
+                words.add(horizontalWord);
+            }
 
-                List<Cell> verticalWord = getWord(move, gameBoard, false);
-                if (verticalWord.size() > 1) {
-                    words.add(verticalWord);
-                    processedCells.addAll(verticalWord);
-                }
+            List<Cell> verticalWord = getWord(move, gameBoard, false);
+            if (verticalWord.size() > 1 && !words.contains(verticalWord)) {
+                words.add(verticalWord);
             }
         }
+        Console.message(""+words, true);
+        Console.message("moves"+moves,false);
 
         return words;
     }
