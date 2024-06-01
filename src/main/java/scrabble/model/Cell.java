@@ -2,7 +2,7 @@ package scrabble.model;
 
 public class Cell {
 	private Tile tile;
-	private final Effects effect;
+	private Effects effect;
 	
 	public Cell (Effects effect) {
 		this.tile=null;
@@ -28,4 +28,8 @@ public class Cell {
 	public void removeTile() {
 		this.tile=null;
 	}
+	
+	 public void setEffect(Effects effect) {
+	        this.effect = effect;
+	    }
 }
