@@ -3,7 +3,6 @@ package scrabble.util;
 import java.util.List;
 
 import scrabble.controller.ConsoleGameController;
-import scrabble.gui.Console;
 import scrabble.model.Cell;
 import scrabble.model.Effects;
 import scrabble.model.GameBoard;
@@ -45,27 +44,22 @@ public class ScoreCounter {
                 
                 case DOUBLE_LETTER:
                     tileScore *= 2;
-                    Console.message("Lettre double", true);
                     cell.setEffect(Effects.NONE);
                     break;
                 case TRIPLE_LETTER:
                     tileScore *= 3;
-                    Console.message("Lettre tripple", true);
                     cell.setEffect(Effects.NONE);
                     break;
                 case DOUBLE_WORD:
                     wordMultiplier *= 2;
-                    Console.message("Mot double", true);
                     cell.setEffect(Effects.NONE);
                     break;
                 case STARS:
                     wordMultiplier *= 2;
-                    Console.message("Étoile", true);
                     cell.setEffect(Effects.NONE);
                     break;
                 case TRIPLE_WORD:
                     wordMultiplier *= 3;
-                    Console.message("Mot tripple", true);
                     cell.setEffect(Effects.NONE);
                     break;
                 default:
