@@ -386,7 +386,7 @@ public class ConsoleGameController {
         int row = move.row();
         int col = move.col();
 
-        while ((isHorizontal ? col > 0 : row > 0) && 
+        while ((isHorizontal ? col > 1 : row > 1) && 
                !gameBoard.cell(isHorizontal ? row : row - 1, isHorizontal ? col - 1 : col).isEmpty()) {
             if (isHorizontal) {
                 col--;
@@ -395,7 +395,7 @@ public class ConsoleGameController {
             }
         }
 
-        while ((isHorizontal ? col < GameBoard.SIZE_GRID : row < GameBoard.SIZE_GRID) && 
+        while ((isHorizontal ? col <= GameBoard.SIZE_GRID : row <= GameBoard.SIZE_GRID) && 
                !gameBoard.cell(row, col).isEmpty()) {
             word.add(gameBoard.cell(row, col));
             if (isHorizontal) {
