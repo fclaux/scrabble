@@ -211,7 +211,7 @@ public class ConsoleGameController {
 
     private Tile answerTile(Rack rack) {
         this.rackView.display(rack);
-        Console.message("Veuillez entrer l'indice de la tuile : ", false);
+        Console.message("Veuillez entrer l'indice de la tuile ("+STOP_VALUE+" pour valider) : ", false);
         int indice = Console.askInt(STOP_VALUE, rack.size());
 
         if (indice != STOP_VALUE) {
