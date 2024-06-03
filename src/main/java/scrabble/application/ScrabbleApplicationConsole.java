@@ -10,8 +10,5 @@ public class ScrabbleApplicationConsole {
 		ConsoleGameController gameController = new ConsoleGameController();
 		
 		gameController.startGame();
-	}
-	
-	
-
+	} 
 }

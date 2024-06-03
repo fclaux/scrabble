@@ -97,7 +97,7 @@ public class Console {
         int askDirection = 0;
 
     	
-    	Console.message("Veuillez saisir la direction du mot, horizontal[1] ou vertical[2]", false);
+    	Console.message("Veuillez saisir la direction du mot, horizontal[1] ou vertical[2] : ", false);
     	askDirection = Console.askInt(1,2);
     	if(askDirection == 1 ) {
     		return Direction.HORIZONTAL;
