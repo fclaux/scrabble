@@ -1,5 +1,8 @@
 package scrabble.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import scrabble.util.IndexOutOfBoardException;
 
 public class GameBoard {
@@ -67,6 +70,52 @@ public class GameBoard {
 			e.printStackTrace();
 		}
 		return null;
-    }	
+    }
+	
+	public  List<List<Cell>> findWordsFromMoves(List<Move> moves ) throws IndexOutOfBoardException {
+        List<List<Cell>> words = new ArrayList<>();
+
+        for (Move move : moves) {
+            List<Cell> horizontalWord = getWord(move, true);
+            if (horizontalWord.size() > 1 && !words.contains(horizontalWord)) {
+                words.add(horizontalWord);
+            }
+
+            List<Cell> verticalWord = getWord(move, false);
+            if (verticalWord.size() > 1 && !words.contains(verticalWord)) {
+                words.add(verticalWord);
+            }
+        }
+
+
+        return words;
+    }
+
+    private List<Cell> getWord(Move move, boolean isHorizontal) throws IndexOutOfBoardException {
+        List<Cell> word = new ArrayList<>();
+        int row = move.row();
+        int col = move.col();
+
+        while ((isHorizontal ? col > 1 : row > 1) && 
+               !this.cell(isHorizontal ? row : row - 1, isHorizontal ? col - 1 : col).isEmpty()) {
+            if (isHorizontal) {
+                col--;
+            } else {
+                row--;
+            }
+        }
+
+        while ((isHorizontal ? col <= GameBoard.SIZE_GRID : row <= GameBoard.SIZE_GRID) && 
+               !this.cell(row, col).isEmpty()) {
+            word.add(this.cell(row, col));
+            if (isHorizontal) {
+                col++;
+            } else {
+                row++;
+            }
+        }
+
+        return word;
+    }
 	
 }
