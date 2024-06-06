@@ -326,7 +326,7 @@ public class ConsoleGameController {
     private void fillPlayerRack(Player player) {
         Rack playerRack = player.rack();
         try {
-            while (!playerRack.isFull() && bagOfTiles.drawTile() != null) {
+            while (!playerRack.isFull() && bagOfTiles.isEmpty()) {
                 Tile tile = bagOfTiles.drawTile();
                 if (tile != null) {
                     playerRack.addTile(tile);
