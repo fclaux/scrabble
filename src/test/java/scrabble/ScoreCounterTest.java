@@ -17,129 +17,162 @@ import scrabble.util.ScoreCounter;
 public class ScoreCounterTest {
 	private ScoreCounter scoreCounter;
 	private GameBoard gameBoard;
-	private ArrayList<Move> motUn;
+	private ArrayList<Move> wordOne;
 	private Tile tileA;
-	private Tile tileJoker;
 	
 	
 	@BeforeEach
     void set_up() {
         scoreCounter = new ScoreCounter();
         gameBoard = new GameBoard();
-		motUn = new ArrayList<Move>();
-        
+		wordOne = new ArrayList<Move>();
         
         Tile tileA = new Tile(Letters.A);
         Tile tileQ = new Tile(Letters.Q);
         Tile tileB = new Tile(Letters.B);
         Tile tileJoker = new Tile(Letters.JOKER);
         
-        Move moveUn = new Move(8, 8, tileA);
-        Move moveDeux = new Move(8,9,tileQ);
-        Move moveTrois = new Move(8,10,tileB);
-        Move moveQuatre = new Move(8,11,tileJoker);
-
+        Move moveOne = new Move(8, 8, tileA);
+        Move moveTwo = new Move(8,9,tileQ);
+        Move moveThree = new Move(8,10,tileB);
+        Move moveFour = new Move(8,11,tileJoker);
         
-		motUn.add(moveUn);
-		motUn.add(moveDeux);
-		motUn.add(moveTrois);
-		motUn.add(moveQuatre);
-
-
+		wordOne.add(moveOne);
+		wordOne.add(moveTwo);
+		wordOne.add(moveThree);
+		wordOne.add(moveFour);
 		
 		gameBoard.addTile(tileA, 8, 8);
 		gameBoard.addTile(tileQ, 8, 9);
 		gameBoard.addTile(tileB, 8, 10);
-		gameBoard.addTile(tileJoker, 8, 11);
-
-
-
-		
+		gameBoard.addTile(tileA, 8, 11);
 
     };
 	
 	@Test
-	void calculateScoreForMovesTestWithoutJoker() throws IndexOutOfBoardException {		
-		assertEquals(24,scoreCounter.calculateScoreForMoves(motUn, gameBoard));
-	
+	void calculateScoreForMovesWithoutJokerTest() throws IndexOutOfBoardException {		
+		assertEquals(26,scoreCounter.calculateScoreForMoves(wordOne, gameBoard));
 	}
 	
 	@Test
-	void addScoreForScrabble() throws IndexOutOfBoardException {
-		ArrayList<Move> motDeux = new ArrayList<Move>();
+	void calculateScoreForMovesWithJokerTest() throws IndexOutOfBoardException{
+        Tile tileJoker = new Tile(Letters.JOKER);
+		Move moveJoker = new Move(8,7,tileJoker);
+
+        wordOne.add(moveJoker);
+        gameBoard.addTile(tileJoker, 8, 7);
+        
+        assertEquals(26,scoreCounter.calculateScoreForMoves(wordOne, gameBoard));
+	}
+	
+	@Test
+	void addScoreForMakeAScrabble() throws IndexOutOfBoardException {
+		ArrayList<Move> word = new ArrayList<Move>();
 		for(int i=0; i<7 ;i++) {
 			Move move = new Move(8+i,11,tileA);
-			motDeux.add(move);
+			word.add(move);
 			gameBoard.addTile(tileA, 8+i, 11);
 		}
-		assertEquals(74,scoreCounter.calculateScoreForMoves(motDeux, gameBoard));
+		assertEquals(74,scoreCounter.calculateScoreForMoves(word, gameBoard));
 	}
 	
 	@Test
 	void checkIfJokerValueIsZero() throws IndexOutOfBoardException{
 		ArrayList<Move> doubleJoker = new ArrayList<Move>();
+        Tile tileJoker = new Tile(Letters.JOKER);
+		
 		Move move = new Move(9,11,tileJoker);
 		doubleJoker.add(move);
 		gameBoard.addTile(tileJoker, 9, 11);
 		
-		assertEquals(0,scoreCounter.calculateScoreForMoves(doubleJoker, gameBoard));
+		assertEquals(1,scoreCounter.calculateScoreForMoves(doubleJoker, gameBoard));
 	}
 	
 	@Test
-	void tileOnLetterDoubleCellTest() throws IndexOutOfBoardException{
-		ArrayList<Move> motTrois = new ArrayList<Move>();
+	void tileOnCellLetterDoubleTest() throws IndexOutOfBoardException{
+		ArrayList<Move> word = new ArrayList<Move>();
         Tile tileA = new Tile(Letters.A);
 
 		Move move = new Move(7,9,tileA);
-		motTrois.add(move);
+		word.add(move);
 		gameBoard.addTile(tileA, 7, 9);
-		assertEquals(10,scoreCounter.calculateScoreForMoves(motTrois, gameBoard));
+		assertEquals(10,scoreCounter.calculateScoreForMoves(word, gameBoard));
 	}
 	
 	@Test
-	void tileOnLetterTrippleCellTest() throws IndexOutOfBoardException{
-		ArrayList<Move> motQuatre = new ArrayList<Move>();
+	void tileOnCellLetterTrippleTest() throws IndexOutOfBoardException{
+		ArrayList<Move> word = new ArrayList<Move>();
         Tile tileA = new Tile(Letters.A);
 
 		Move move = new Move(6,10,tileA);
-		motQuatre.add(move);
+		word.add(move);
 		gameBoard.addTile(tileA, 6, 10);
 		
 		move = new Move(7,10,tileA);
-		motQuatre.add(move);
+		word.add(move);
 		gameBoard.addTile(tileA, 7, 10);
 		
 		
-		assertEquals(7,scoreCounter.calculateScoreForMoves(motQuatre, gameBoard));
+		assertEquals(7,scoreCounter.calculateScoreForMoves(word, gameBoard));
+	}
+	
+	@Test
+	void jokerOnCellWithLetterMultiplier() throws IndexOutOfBoardException {
+        Tile tileJoker = new Tile(Letters.JOKER);
+		
+		Move moveJoker = new Move(8,12,tileJoker);
+        wordOne.add(moveJoker);
+        gameBoard.addTile(tileJoker, 8, 12);
+        
+        assertEquals(26,scoreCounter.calculateScoreForMoves(wordOne, gameBoard));
 	}
 	
 	@Test
 	void tileOnWordDoubleCellTest() throws IndexOutOfBoardException{
-		ArrayList<Move> motQuatre = new ArrayList<Move>();
+		ArrayList<Move> word = new ArrayList<Move>();
         Tile tileA = new Tile(Letters.A);
 		
 		for(int i=0; i<3 ;i++) {
 			Move move = new Move(4+i,11,tileA);
-			motQuatre.add(move);
+			word.add(move);
 			gameBoard.addTile(tileA, 4+i, 11);
 		}
 		
 		
-		assertEquals(6,scoreCounter.calculateScoreForMoves(motQuatre, gameBoard));
+		assertEquals(6,scoreCounter.calculateScoreForMoves(word, gameBoard));
 	}
 	
 	@Test
 	void tileOnWordTrippleCellTest() throws IndexOutOfBoardException{
-		ArrayList<Move> motQuatre = new ArrayList<Move>();
+		ArrayList<Move> word = new ArrayList<Move>();
         Tile tileA = new Tile(Letters.A);
 		
 		for(int i=0; i<3 ;i++) {
 			Move move = new Move(8+i,15,tileA);
-			motQuatre.add(move);
+			word.add(move);
 			gameBoard.addTile(tileA, 8+i, 15);
 		}
-		
-		
-		assertEquals(9,scoreCounter.calculateScoreForMoves(motQuatre, gameBoard));
+		assertEquals(9,scoreCounter.calculateScoreForMoves(word, gameBoard));
 	}
+	
+	@Test
+	void jokerOnWordCellEffect() throws IndexOutOfBoardException {
+		ArrayList<Move> word = new ArrayList<Move>();
+		Tile tileA = new Tile(Letters.A);
+        Tile tileJoker = new Tile(Letters.JOKER);
+
+		
+		Move move = new Move(1,1,tileJoker);
+		word.add(move);
+		gameBoard.addTile(tileJoker, 1, 1);
+		
+		for(int i=0; i<2; i++) {
+			move = new Move(1,2+i,tileA);
+			word.add(move);
+			gameBoard.addTile(tileA, 1, 2+i);
+		}
+		assertEquals(6,scoreCounter.calculateScoreForMoves(word, gameBoard));
+	}
+	
+	
 }
