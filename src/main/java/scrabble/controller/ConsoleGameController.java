@@ -120,93 +120,7 @@ public class ConsoleGameController {
         }
     }
 
-    private List<Move> getPlayerMoves() throws IndexOutOfBoardException {
-        int row;
-        int col;
-        int nbLetters = 0;
-        Rack rack = this.player.rack();
-        List<Move> moves = new ArrayList<>();
-        Console.title("Tour du joueur " + player.name());
-        Tile tile = answerTile(rack);
-        if (tile != null) {
-            Console.message("Veuillez entrer la ligne : ", false);
-            row = Console.askInt(1, GameBoard.SIZE_GRID);
-            Console.message("Veuillez entrer la colonne : ", false);
-            col = Console.askInt(1, GameBoard.SIZE_GRID);
-
-            moves.add(new Move(row, col, tile));
-            nbLetters += 1;
-            
-            tile = answerTile(rack);
-            if (tile != null) {
-       
-                placeAWord(rack,tile,nbLetters,moves,row,col);
-                
-            }
-            
-            
-
-            
-            
-        }
-        return moves;
-    }
     
-    private Direction askForDirection() {
-        return Console.askDirection();
-
-    }
-    
-    public int jumpOverATile(Cell cell, int nbLetters) {
-         return nbLetters += 1;
-        
-    }
-    
-    private void placeATile(List<Move> moves, Direction direction, int row, int col, int nbLetters, Tile tile) throws IndexOutOfBoardException {
-    	if (direction == Direction.HORIZONTAL) {
-            Cell cell = gameBoard.cell(row, col + nbLetters);
-            while(!cell.isEmpty()) {
-                nbLetters = jumpOverATile(cell,nbLetters);
-                cell = gameBoard.cell(row + nbLetters, col);
-            }       
-            
-            moves.add(new Move(row, col + nbLetters, tile));
-
-        } else {
-        	
-            Cell cell = gameBoard.cell(row + nbLetters, col);
-            
-            while(!cell.isEmpty()) {
-                nbLetters = jumpOverATile(cell,nbLetters);
-                cell = gameBoard.cell(row + nbLetters, col);
-            }
-
-            moves.add(new Move(row + nbLetters, col, tile));
-        }
-    	
-    }
-    
-    private void placeAWord(Rack rack,Tile tile ,int nbLetters,List<Move> moves, int row, int col) throws IndexOutOfBoardException{
-    	Direction direction = null;
-        boolean firstOccurrence = true;
-    	
-    	
-    	while (tile != null && !rack.isEmpty()) {
-            if (firstOccurrence) {
-            	direction = askForDirection();
-            	placeATile(moves,direction,row,col,nbLetters,tile);
-            	nbLetters = nbLetters + 1;
-                firstOccurrence = false;
-            }
-            tile = answerTile(rack);
-
-            if (tile != null) {
-            	placeATile(moves,direction,row,col,nbLetters,tile);
-            	nbLetters += 1;
-
-            }
-        }
-    }
     
 
     private Tile answerTile(Rack rack) {
@@ -362,51 +276,94 @@ public class ConsoleGameController {
         }
     }
     
-    public static List<List<Cell>> findWordsFromMoves(List<Move> moves, GameBoard gameBoard) throws IndexOutOfBoardException {
-        List<List<Cell>> words = new ArrayList<>();
+    private List<Move> getPlayerMoves() throws IndexOutOfBoardException {
+        int row;
+        int col;
+        int nbLetters = 0;
+        Rack rack = this.player.rack();
+        List<Move> moves = new ArrayList<>();
+        Console.title("Tour du joueur " + player.name());
+        Tile tile = answerTile(rack);
+        if (tile != null) {
+            Console.message("Veuillez entrer la ligne : ", false);
+            row = Console.askInt(1, GameBoard.SIZE_GRID);
+            Console.message("Veuillez entrer la colonne : ", false);
+            col = Console.askInt(1, GameBoard.SIZE_GRID);
 
-        for (Move move : moves) {
-            List<Cell> horizontalWord = getWord(move, gameBoard, true);
-            if (horizontalWord.size() > 1 && !words.contains(horizontalWord)) {
-                words.add(horizontalWord);
+            moves.add(new Move(row, col, tile));
+            nbLetters += 1;
+            
+            tile = answerTile(rack);
+            if (tile != null) {
+       
+                placeAWord(rack,tile,nbLetters,moves,row,col);
+                
             }
+            
+            
 
-            List<Cell> verticalWord = getWord(move, gameBoard, false);
-            if (verticalWord.size() > 1 && !words.contains(verticalWord)) {
-                words.add(verticalWord);
-            }
+            
+            
         }
-
-
-        return words;
+        return moves;
     }
+    
+    private Direction askForDirection() {
+        return Console.askDirection();
 
-    private static List<Cell> getWord(Move move, GameBoard gameBoard, boolean isHorizontal) throws IndexOutOfBoardException {
-        List<Cell> word = new ArrayList<>();
-        int row = move.row();
-        int col = move.col();
-
-        while ((isHorizontal ? col > 1 : row > 1) && 
-               !gameBoard.cell(isHorizontal ? row : row - 1, isHorizontal ? col - 1 : col).isEmpty()) {
-            if (isHorizontal) {
-                col--;
-            } else {
-                row--;
-            }
-        }
-
-        while ((isHorizontal ? col <= GameBoard.SIZE_GRID : row <= GameBoard.SIZE_GRID) && 
-               !gameBoard.cell(row, col).isEmpty()) {
-            word.add(gameBoard.cell(row, col));
-            if (isHorizontal) {
-                col++;
-            } else {
-                row++;
-            }
-        }
-
-        return word;
     }
+    
+    public int jumpOverATile(Cell cell, int nbLetters) {
+         return nbLetters += 1;
+        
+    }
+    
+    private void placeATile(List<Move> moves, Direction direction, int row, int col, int nbLetters, Tile tile) throws IndexOutOfBoardException {
+    	if (direction == Direction.HORIZONTAL) {
+            Cell cell = gameBoard.cell(row, col + nbLetters);
+            while(!cell.isEmpty()) {
+                nbLetters = jumpOverATile(cell,nbLetters);
+                cell = gameBoard.cell(row + nbLetters, col);
+            }       
+            
+            moves.add(new Move(row, col + nbLetters, tile));
+
+        } else {
+        	
+            Cell cell = gameBoard.cell(row + nbLetters, col);
+            
+            while(!cell.isEmpty()) {
+                nbLetters = jumpOverATile(cell,nbLetters);
+                cell = gameBoard.cell(row + nbLetters, col);
+            }
+
+            moves.add(new Move(row + nbLetters, col, tile));
+        }
+    	
+    }
+    
+    private void placeAWord(Rack rack,Tile tile ,int nbLetters,List<Move> moves, int row, int col) throws IndexOutOfBoardException{
+    	Direction direction = null;
+        boolean firstOccurrence = true;
+    	
+    	
+    	while (tile != null && !rack.isEmpty()) {
+            if (firstOccurrence) {
+            	direction = askForDirection();
+            	placeATile(moves,direction,row,col,nbLetters,tile);
+            	nbLetters = nbLetters + 1;
+                firstOccurrence = false;
+            }
+            tile = answerTile(rack);
+
+            if (tile != null) {
+            	placeATile(moves,direction,row,col,nbLetters,tile);
+            	nbLetters += 1;
+
+            }
+        }
+    }
+    
     
     
 }
