@@ -30,17 +30,15 @@ public class ScoreCounterTest {
         Tile tileA = new Tile(Letters.A);
         Tile tileQ = new Tile(Letters.Q);
         Tile tileB = new Tile(Letters.B);
-        Tile tileJoker = new Tile(Letters.JOKER);
         
         Move moveOne = new Move(8, 8, tileA);
         Move moveTwo = new Move(8,9,tileQ);
         Move moveThree = new Move(8,10,tileB);
-        Move moveFour = new Move(8,11,tileJoker);
         
 		wordOne.add(moveOne);
 		wordOne.add(moveTwo);
 		wordOne.add(moveThree);
-		wordOne.add(moveFour);
+		wordOne.add(moveOne);
 		
 		gameBoard.addTile(tileA, 8, 8);
 		gameBoard.addTile(tileQ, 8, 9);
@@ -50,12 +48,12 @@ public class ScoreCounterTest {
     };
 	
 	@Test
-	void calculateScoreForMovesWithoutJokerTest() throws IndexOutOfBoardException {		
+	void calculateScoreForMovesWithoutJoker() throws IndexOutOfBoardException {		
 		assertEquals(26,scoreCounter.calculateScoreForMoves(wordOne, gameBoard));
 	}
 	
 	@Test
-	void calculateScoreForMovesWithJokerTest() throws IndexOutOfBoardException{
+	void calculateScoreForMovesWithJoker() throws IndexOutOfBoardException{
         Tile tileJoker = new Tile(Letters.JOKER);
 		Move moveJoker = new Move(8,7,tileJoker);
 
@@ -100,7 +98,7 @@ public class ScoreCounterTest {
 	}
 	
 	@Test
-	void tileOnCellLetterTrippleTest() throws IndexOutOfBoardException{
+	void tileOnCellLetterTripple() throws IndexOutOfBoardException{
 		ArrayList<Move> word = new ArrayList<Move>();
         Tile tileA = new Tile(Letters.A);
 
@@ -172,6 +170,39 @@ public class ScoreCounterTest {
 			gameBoard.addTile(tileA, 1, 2+i);
 		}
 		assertEquals(6,scoreCounter.calculateScoreForMoves(word, gameBoard));
+	}
+	
+	@Test
+	void completeAWordWithOneLetter() throws IndexOutOfBoardException {
+		ArrayList<Move> word = new ArrayList<Move>();
+		Tile tileA = new Tile(Letters.A);
+		
+		Move move = new Move(8,7,tileA);
+		word.add(move);
+		gameBoard.addTile(tileA, 8, 7);
+		
+		assertEquals(scoreCounter.calculateScoreForMoves(wordOne,gameBoard)/2,scoreCounter.calculateScoreForMoves(word,gameBoard));
+	}
+	
+	@Test
+	void multiplicatorUsedOnlyOnce() throws IndexOutOfBoardException {
+		ArrayList<Move> wordTwo = new ArrayList<Move>();
+		ArrayList<Move> word = new ArrayList<Move>();
+
+        Tile tileA = new Tile(Letters.A);
+        
+        for(int i=0; i<3 ;i++) {
+			Move move = new Move(8+i,15,tileA);
+			word.add(move);
+			gameBoard.addTile(tileA, 8+i, 15);
+		}
+		assertEquals(9,scoreCounter.calculateScoreForMoves(word, gameBoard));
+        
+		Move moveTwo = new Move(11,15,tileA);
+		wordTwo.add(moveTwo);
+		gameBoard.addTile(tileA, 11, 15);
+		
+		assertEquals(9/3+1,scoreCounter.calculateScoreForMoves(wordTwo, gameBoard));
 	}
 	
 	
