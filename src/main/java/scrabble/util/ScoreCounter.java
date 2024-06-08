@@ -2,7 +2,6 @@ package scrabble.util;
 
 import java.util.List;
 
-import scrabble.controller.ConsoleGameController;
 import scrabble.model.Cell;
 import scrabble.model.Effects;
 import scrabble.model.GameBoard;
@@ -10,10 +9,13 @@ import scrabble.model.Move;
 import scrabble.model.Tile;
 
 public class ScoreCounter {
+	
+	
+	
 	public static final int SCRABBLE = 50;
 
     public int calculateScoreForMoves(List<Move> moves, GameBoard gameBoard) throws IndexOutOfBoardException {
-        List<List<Cell>> words = ConsoleGameController.findWordsFromMoves(moves, gameBoard);
+        List<List<Cell>> words = gameBoard.findWordsFromMoves(moves);
         int totalScore = 0;
 
         for (List<Cell> word : words) {
