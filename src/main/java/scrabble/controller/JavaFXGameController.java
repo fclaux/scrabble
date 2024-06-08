@@ -45,7 +45,6 @@ import scrabble.model.Move;
 import scrabble.model.Player;
 import scrabble.model.Rack;
 import scrabble.model.Tile;
-import scrabble.util.EmptyBagException;
 import scrabble.util.IndexOutOfBoardException;
 import scrabble.util.ScoreCounter;
 import scrabble.view.javafx.GameBoardFX;
@@ -54,10 +53,6 @@ import scrabble.view.javafx.RackFX;
 
 public class JavaFXGameController extends GameController {
 	private Stage primaryStage;
-	private Player player;
-    private GameBoard gameBoard;
-    private BagOfTiles bagOfTiles;
-    private ScoreCounter scoreCounter;
     private PlayerFX playerFX;
     private GameBoardFX gameBoardFX;
     private RackFX rackFX;
@@ -226,21 +221,12 @@ public class JavaFXGameController extends GameController {
 		titleLb.setFont(Font.font("Arial", FontWeight.BOLD, 48));
 		titleLb.setTextFill(Color.DARKGREEN);
 		lastExchangeTurn = -1;
-		shuffleBagOfTiles();
+		this.shuffleBagOfTiles();
 	}
 	
+	@Override
 	protected void fillPlayerRack(Player player) {
-        Rack playerRack = player.rack();
-        try {
-            while (!playerRack.isFull() && !bagOfTiles.isEmpty()) {
-                Tile tile = bagOfTiles.drawTile();
-                if (tile != null) {
-                    playerRack.addTile(tile);
-                }
-            }
-        } catch (EmptyBagException e) {
-            e.printStackTrace();
-        }
+        this.fillPlayerRack(player);
         remainingTileInBag.set(bagOfTiles.remainingTilesCount());
     }
 	
@@ -252,7 +238,7 @@ public class JavaFXGameController extends GameController {
 	
 	private void applyMoves(List<Move> playerMoves) throws IndexOutOfBoardException {
         if (isMovesValid(playerMoves)) {
-            addTilesToBoard(playerMoves);
+            this.addTilesToBoard(playerMoves);
             int score = scoreCounter.calculateScoreForMoves(playerMoves, gameBoard);
             player.addScore(score);
             scoreForMove.set(score);
@@ -260,26 +246,7 @@ public class JavaFXGameController extends GameController {
             errorMoveLb.setText("");
         } else {
         	errorMoveLb.setText("Votre coup n'est pas valide !");
-            returnTilesToRack(playerMoves);
-        }
-    }
-	
-	protected void addTilesToBoard(List<Move> playerMoves) {
-        for (Move move : playerMoves) {
-            Tile tile = move.tile();
-            int row = move.row();
-            int col = move.col();
-            this.gameBoard.addTile(tile, row, col);
-        }
-    }
-
-	protected void returnTilesToRack(List<Move> playerMoves) {
-        for (Move move : playerMoves) {
-            Tile tile = move.tile();
-            if (tile.isJoker()) {
-                tile.letter(Letters.JOKER);
-            }
-            this.player.addTileInRack(tile);
+            this.returnTilesToRack(playerMoves);
         }
     }
     
@@ -363,25 +330,7 @@ public class JavaFXGameController extends GameController {
         Optional<Direction> result = dialog.showAndWait();
         return result.orElse(Direction.HORIZONTAL);
     }
-    
-    protected void placeATile(List<Move> moves, Direction direction, int row, int col, int nbLetters, Tile tile) throws IndexOutOfBoardException {
-    	if (direction == Direction.HORIZONTAL) {
-            Cell cell = gameBoard.cell(row, col + nbLetters);
-            while(!cell.isEmpty()) {
-                nbLetters += 1;
-                cell = gameBoard.cell(row + nbLetters, col);
-            }       
-            moves.add(new Move(row, col + nbLetters, tile));
-        } else {
-            Cell cell = gameBoard.cell(row + nbLetters, col);
-            while(!cell.isEmpty()) {
-                nbLetters +=1;
-                cell = gameBoard.cell(row + nbLetters, col);
-            }
-            moves.add(new Move(row + nbLetters, col, tile));
-        }
-    }
-    
+
     private void placeAWord(Rack rack,Tile tile ,int nbLetters,List<Move> moves, int row, int col) throws IndexOutOfBoardException{
     	Direction direction = null;
         boolean firstOccurrence = true;
@@ -389,7 +338,7 @@ public class JavaFXGameController extends GameController {
     	while (tile != null && !rack.isEmpty()) {
             if (firstOccurrence) {
             	direction = askForDirection();
-            	placeATile(moves,direction,row,col,nbLetters,tile);
+            	this.placeATile(moves,direction,row,col,nbLetters,tile);
             	nbLetters = nbLetters + 1;
                 firstOccurrence = false;
             }
@@ -509,7 +458,7 @@ public class JavaFXGameController extends GameController {
                     tileOnOccupiedCell = true;
                 }
                 
-                if (isAdjacentToExistingWord(row, col)) {
+                if (this.isAdjacentToExistingWord(row, col)) {
                         haveNearTile = true;
                 }
             } catch (IndexOutOfBoardException e) {
@@ -517,15 +466,15 @@ public class JavaFXGameController extends GameController {
             }
         }
 
-        if (isFirstMove() && !tileOnStars) {
+        if (this.isFirstMove() && !tileOnStars) {
             return false;
         } 
 
-        if (!isFirstMove() && !haveNearTile) {
+        if (!this.isFirstMove() && !haveNearTile) {
             return false;
         }
         
-        if (isFirstMove() && playerMoves.size() == 1) {
+        if (this.isFirstMove() && playerMoves.size() == 1) {
         	return false;
         }
 
@@ -538,25 +487,6 @@ public class JavaFXGameController extends GameController {
         }
 
         return true;
-    }
-
-    protected boolean isFirstMove() {
-        for (int i = 1; i <= GameBoard.SIZE_GRID; i++) {
-            for (int j = 1; j <= GameBoard.SIZE_GRID; j++) {
-                try {
-                    if (!gameBoard.cell(i, j).isEmpty()) {
-                        return false;
-                    }
-                } catch (IndexOutOfBoardException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        return true;
-    }
-
-    protected void shuffleBagOfTiles() {
-        this.bagOfTiles.shuffle();
     }
 
     private void exchangeTiles(Player player) {
@@ -613,25 +543,16 @@ public class JavaFXGameController extends GameController {
         rackFX.updateRack();
     }
     
-    protected boolean isAdjacentToExistingWord(int row, int col) {
-        try {
-            return (!gameBoard.cell(row - 1, col).isEmpty() || !gameBoard.cell(row + 1, col).isEmpty() ||
-                    !gameBoard.cell(row, col - 1).isEmpty() || !gameBoard.cell(row, col + 1).isEmpty());
-        } catch (IndexOutOfBoardException e) {
-            return false;
-        }
-    }
-    
-    public static List<List<Cell>> findWordsFromMoves(List<Move> moves, GameBoard gameBoard) throws IndexOutOfBoardException {
+    public List<List<Cell>> findWordsFromMoves(List<Move> moves, GameBoard gameBoard) throws IndexOutOfBoardException {
         List<List<Cell>> words = new ArrayList<>();
 
         for (Move move : moves) {
-            List<Cell> horizontalWord = getWord(move, gameBoard, true);
+            List<Cell> horizontalWord = gameBoard.getWord(move, true);
             if (horizontalWord.size() > 1 && !words.contains(horizontalWord)) {
                 words.add(horizontalWord);
             }
 
-            List<Cell> verticalWord = getWord(move, gameBoard, false);
+            List<Cell> verticalWord = gameBoard.getWord(move, false);
             if (verticalWord.size() > 1 && !words.contains(verticalWord)) {
                 words.add(verticalWord);
             }
@@ -640,31 +561,6 @@ public class JavaFXGameController extends GameController {
         return words;
     }
 
-    private static List<Cell> getWord(Move move, GameBoard gameBoard, boolean isHorizontal) throws IndexOutOfBoardException {
-        List<Cell> word = new ArrayList<>();
-        int row = move.row();
-        int col = move.col();
-
-        while ((isHorizontal ? col > 1 : row > 1) && 
-               !gameBoard.cell(isHorizontal ? row : row - 1, isHorizontal ? col - 1 : col).isEmpty()) {
-            if (isHorizontal) {
-                col--;
-            } else {
-                row--;
-            }
-        }
-
-        while ((isHorizontal ? col <= GameBoard.SIZE_GRID : row <= GameBoard.SIZE_GRID) && 
-               !gameBoard.cell(row, col).isEmpty()) {
-            word.add(gameBoard.cell(row, col));
-            if (isHorizontal) {
-                col++;
-            } else {
-                row++;
-            }
-        }
-        return word;
-    }
     
     private String formatTile(Tile tile) {
         String[] subscriptDigits = {"\u2080", "\u2081", "\u2082", "\u2083", "\u2084", "\u2085", "\u2086", "\u2087", "\u2088", "\u2089", "\u2081\u2080"};
