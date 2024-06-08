@@ -19,16 +19,14 @@ import scrabble.util.ScoreCounter;
 import scrabble.view.console.ConsoleGameBoardView;
 import scrabble.view.console.ConsoleMenuView;
 import scrabble.view.console.ConsoleRackView;
-import scrabble.view.interfaces.GameBoardView;
-import scrabble.view.interfaces.RackView;
 
 public class ConsoleGameController {
     private Player player;
     private GameBoard gameBoard;
     private BagOfTiles bagOfTiles;
     private ConsoleMenuView menuView;
-    private GameBoardView gameBoardView;
-    private RackView rackView;
+    private ConsoleGameBoardView gameBoardView;
+    private ConsoleRackView rackView;
     private boolean firstExchange = true;
     private ScoreCounter scoreCounter;
 
