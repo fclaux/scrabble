@@ -226,7 +226,7 @@ public class JavaFXGameController extends GameController {
 	
 	@Override
 	protected void fillPlayerRack(Player player) {
-        this.fillPlayerRack(player);
+        super.fillPlayerRack(player);
         remainingTileInBag.set(bagOfTiles.remainingTilesCount());
     }
 	
