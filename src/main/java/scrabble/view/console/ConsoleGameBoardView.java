@@ -4,11 +4,9 @@ import scrabble.gui.Console;
 import scrabble.model.Cell;
 import scrabble.model.GameBoard;
 import scrabble.util.IndexOutOfBoardException;
-import scrabble.view.interfaces.GameBoardView;
 
-public class ConsoleGameBoardView implements GameBoardView {
+public class ConsoleGameBoardView{
 
-	@Override
 	public void display(GameBoard gameBoard) {
 
 		final String ROW_SEPARATOR = "   " + Console.SEPARATOR_LINE + "\n";

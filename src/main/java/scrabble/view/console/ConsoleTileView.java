@@ -3,14 +3,11 @@ package scrabble.view.console;
 import scrabble.gui.Console;
 import scrabble.gui.ConsoleColor;
 import scrabble.model.Tile;
-import scrabble.view.interfaces.TileView;
 
-public class ConsoleTileView implements TileView {
+public class ConsoleTileView{
 	
-	@Override
 	public void display(Tile tile) {
 		display(tile, false);
-		
 	}
 
 	public void display(Tile tile, boolean isGameBoardTile) {
@@ -36,6 +33,4 @@ public class ConsoleTileView implements TileView {
             return String.format("%-3s", tile.letter() + subscriptDigits[tile.letter().value()]);
         }
     }
-
-	
 }

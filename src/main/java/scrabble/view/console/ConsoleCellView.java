@@ -3,11 +3,9 @@ package scrabble.view.console;
 import scrabble.gui.Console;
 import scrabble.gui.ConsoleColor;
 import scrabble.model.Cell;
-import scrabble.view.interfaces.CellView;
 
-public class ConsoleCellView implements CellView {
+public class ConsoleCellView{
 
-	@Override
 	public void display(Cell cell) {
 		if (!cell.isEmpty()) {
         	ConsoleTileView tileView = new ConsoleTileView();
@@ -38,8 +36,6 @@ public class ConsoleCellView implements CellView {
             }
             
             Console.message(backgroundColor +" " + cell.effect().symbol() + " "+ ConsoleColor.RESET, false);
-
+        }
 	}
-	}
-
 }
