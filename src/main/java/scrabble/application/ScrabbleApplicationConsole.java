@@ -7,8 +7,8 @@ public class ScrabbleApplicationConsole {
 
 	
 	public static void main(String[] args) throws IndexOutOfBoardException {
-		ConsoleGameController gameController = new ConsoleGameController();
+		ConsoleGameController consoleGameController = new ConsoleGameController();
 		
-		gameController.startGame();
+		consoleGameController.startGame();
 	} 
 }
