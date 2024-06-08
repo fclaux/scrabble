@@ -15,6 +15,10 @@ public class Rack {
 		return tiles;
 	}
     
+    public Tile tile(int index) {
+    	return tiles.get(index);
+    }
+    
 	public void addTile(Tile tile) {
         if (tiles.size() < MAX_TILES) {
             tiles.add(tile);
