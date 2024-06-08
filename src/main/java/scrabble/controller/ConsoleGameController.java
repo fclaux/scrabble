@@ -27,7 +27,6 @@ public class ConsoleGameController extends GameController {
 
     private static final int STOP_VALUE = 0;
 
-
     public ConsoleGameController() {
     	super();
         this.menuView = new ConsoleMenuView();
@@ -68,7 +67,6 @@ public class ConsoleGameController extends GameController {
         Console.message("Merci d'avoir joué !", true);
     }
 
-
     private void applyMoves(List<Move> playerMoves) throws IndexOutOfBoardException {
         if (isMovesValid(playerMoves)) {
             Console.message("Votre coup est valide ! ", true);
@@ -86,13 +84,11 @@ public class ConsoleGameController extends GameController {
     
     protected Direction askForDirection() {
         return Console.askDirection();
-
     }
     
     protected void placeAWord(Rack rack,Tile tile ,int nbLetters,List<Move> moves, int row, int col) throws IndexOutOfBoardException{
     	Direction direction = null;
         boolean firstOccurrence = true;
-    	
     	
     	while (tile != null && !rack.isEmpty()) {
             if (firstOccurrence) {
@@ -106,11 +102,9 @@ public class ConsoleGameController extends GameController {
             if (tile != null) {
             	placeATile(moves,direction,row,col,nbLetters,tile);
             	nbLetters += 1;
-
             }
         }
     }
-
 
     private List<Move> getPlayerMoves() throws IndexOutOfBoardException {
         int row;
@@ -131,14 +125,11 @@ public class ConsoleGameController extends GameController {
             
             tile = answerTile(rack);
             if (tile != null) {
-       
             	placeAWord(rack,tile,nbLetters,moves,row,col);
-                
             }
         }
         return moves;
-    } 
-    
+    }  
 
     protected Tile answerTile(Rack rack) {
     	this.rackView.display(rack);
@@ -147,7 +138,6 @@ public class ConsoleGameController extends GameController {
 	
 	    if (indice != STOP_VALUE) {
 	        Tile tile = rack.removeTile(indice - 1);
-	
 	        if (tile.isJoker()) {
 	            char jokerLetter = Console.askJokerLetter();
 	            tile.letter(Letters.valueOf(String.valueOf(jokerLetter)));
@@ -155,7 +145,6 @@ public class ConsoleGameController extends GameController {
 	        return tile;
 	    }
 	    return null;
-    
 	}
     
     private boolean isMovesValid(List<Move> playerMoves) {
@@ -164,14 +153,12 @@ public class ConsoleGameController extends GameController {
         boolean allInSameRow = true;
         boolean allInSameCol = true;
         boolean haveNearTile = false;
-
-
+        
         if (playerMoves.isEmpty()) {
             Console.message("vous devez jouer au moins 1 lettres si elle est adjacente à un mot déjà existant", true);
             return false;
         }
-
-        
+   
         int firstRow = playerMoves.get(0).row();
         int firstCol = playerMoves.get(0).col();
 
@@ -190,17 +177,13 @@ public class ConsoleGameController extends GameController {
                 if (col == GameBoard.MIDDLE_CASE && row == GameBoard.MIDDLE_CASE) {
                     tileOnStars = true;
                 }
-
                 if (!this.gameBoard.cell(row, col).isEmpty()) {
                     Console.message("Une cellule (" + row + " , " + col + ") est déjà occupée", true);
                     tileOnOccupiedCell = true;
                 }
-                
                 if (this.isAdjacentToExistingWord(row, col)) {
                         haveNearTile = true;
-                    }
-
-
+                }
             } catch (IndexOutOfBoardException e) {
                 e.printStackTrace();
             }
@@ -210,29 +193,22 @@ public class ConsoleGameController extends GameController {
             Console.message("C'est le premier tour et vous ne jouez pas sur l'étoile", true);
             return false;
         }
-        
-
         if (!this.isFirstMove() && !haveNearTile) {
             Console.message("C'est pas le premier tour et aucune tuile n'est connectée", true);
             return false;
         }
-
-        
         if (this.isFirstMove() && playerMoves.size() == 1) {
         	Console.message("Vous devez placer au moin 2 tuiles lors du premier coup de la partie", true);
         	return false;
         }
-
         if (tileOnOccupiedCell) {
             Console.message("Vous voulez placer une tuile sur un espace occupé", true);
             return false;
         }
-
         if (!(allInSameRow || allInSameCol)) {
             Console.message("Les tuiles doivent être alignées dans le même sens, soit vers le bas, soit vers la droite", true);
             return false;
         }
-
         return true;
     }  
 
@@ -259,8 +235,4 @@ public class ConsoleGameController extends GameController {
         
         applyMoves(playerMoves);
     }
-    
-   
-    
-    
 }

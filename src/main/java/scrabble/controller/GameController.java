@@ -22,8 +22,6 @@ public class GameController {
 	protected Rack rack;
     protected ScoreCounter scoreCounter;
 
-	
-
     public GameController() {
         this.player = new Player("Joueur 1");
         this.bagOfTiles = new BagOfTiles();
@@ -31,8 +29,7 @@ public class GameController {
         this.gameBoard = new GameBoard();
         this.scoreCounter = new ScoreCounter();
     }
-	
-	
+
 	 protected boolean isAdjacentToExistingWord(int row, int col) {
 	        try {
 	            return (!gameBoard.cell(row - 1, col).isEmpty() || !gameBoard.cell(row + 1, col).isEmpty() ||
@@ -41,8 +38,7 @@ public class GameController {
 	            return false;
 	        }
 	    }
-	    
-	    
+
 	    protected void shuffleBagOfTiles() {
 	        this.bagOfTiles.shuffle();
 	    }
@@ -61,7 +57,6 @@ public class GameController {
 	        }
 	        return true;
 	    }
-	    
 
 	    protected void fillPlayerRack(Player player) {
 	        Rack playerRack = player.rack();
@@ -77,35 +72,28 @@ public class GameController {
 	        }
 	    }
 	    
-
-	    
 	    public int jumpOverATile(int nbLetters) {
 	         return nbLetters += 1;
-	        
 	    }
 	    
 	    protected void placeATile(List<Move> moves, Direction direction, int row, int col, int nbLetters, Tile tile) throws IndexOutOfBoardException {
 	    	if (direction == Direction.HORIZONTAL) {
 	            Cell cell = gameBoard.cell(row, col + nbLetters);
+	            
 	            while(!cell.isEmpty()) {
 	                nbLetters = jumpOverATile(nbLetters);
 	                cell = gameBoard.cell(row + nbLetters, col);
 	            }       
-	            
 	            moves.add(new Move(row, col + nbLetters, tile));
-
 	        } else {
-	        	
 	            Cell cell = gameBoard.cell(row + nbLetters, col);
 	            
 	            while(!cell.isEmpty()) {
 	                nbLetters = jumpOverATile(nbLetters);
 	                cell = gameBoard.cell(row + nbLetters, col);
 	            }
-
 	            moves.add(new Move(row + nbLetters, col, tile));
 	        }
-	    	
 	    }
 	    
 	    protected void returnTilesToRack(List<Move> playerMoves) {
@@ -126,11 +114,4 @@ public class GameController {
 	            this.gameBoard.addTile(tile, row, col);
 	        }
 	    }
-	    
-	    
-	    
-	    
-	    
-
-
 }
