@@ -89,7 +89,7 @@ public class GameBoard {
         return words;
     }
 
-    private List<Cell> getWord(Move move, boolean isHorizontal) throws IndexOutOfBoardException {
+    public List<Cell> getWord(Move move, boolean isHorizontal) throws IndexOutOfBoardException {
         List<Cell> word = new ArrayList<>();
         int row = move.row();
         int col = move.col();
