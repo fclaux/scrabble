@@ -70,9 +70,9 @@ public class GameBoard {
 			e.printStackTrace();
 		}
 		return null;
-    }	
+    }
 	
-	public List<List<Cell>> findWordsFromMoves(List<Move> moves) throws IndexOutOfBoardException {
+	public  List<List<Cell>> findWordsFromMoves(List<Move> moves ) throws IndexOutOfBoardException {
         List<List<Cell>> words = new ArrayList<>();
 
         for (Move move : moves) {
@@ -86,6 +86,8 @@ public class GameBoard {
                 words.add(verticalWord);
             }
         }
+
+
         return words;
     }
 
@@ -94,8 +96,6 @@ public class GameBoard {
         int row = move.row();
         int col = move.col();
 
-        
-        
         while ((isHorizontal ? col > 1 : row > 1) && 
                !this.cell(isHorizontal ? row : row - 1, isHorizontal ? col - 1 : col).isEmpty()) {
             if (isHorizontal) {
@@ -103,20 +103,18 @@ public class GameBoard {
             } else {
                 row--;
             }
-
         }
 
         while ((isHorizontal ? col <= GameBoard.SIZE_GRID : row <= GameBoard.SIZE_GRID) && 
                !this.cell(row, col).isEmpty()) {
             word.add(this.cell(row, col));
-
-            
             if (isHorizontal) {
                 col++;
             } else {
                 row++;
             }
         }
+
         return word;
     }
 	

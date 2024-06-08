@@ -2,14 +2,11 @@ package scrabble.view.console;
 
 import scrabble.gui.Console;
 import scrabble.model.Player;
-import scrabble.view.interfaces.PlayerView;
 
-public class ConsolePlayerView implements PlayerView {
+public class ConsolePlayerView{
 
-	@Override
 	public void display(Player player) {
 		Console.message("Nom = " + player.name(), true);
 		Console.message("Score = " + player.score(), true);
 	}
-
 }
