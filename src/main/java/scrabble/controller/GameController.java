@@ -61,7 +61,7 @@ public class GameController {
 	    protected void fillPlayerRack(Player player) {
 	        Rack playerRack = player.rack();
 	        try {
-	            while (!playerRack.isFull() && bagOfTiles.drawTile() != null) {
+	            while (!playerRack.isFull() && !bagOfTiles.isEmpty()) {
 	                Tile tile = bagOfTiles.drawTile();
 	                if (tile != null) {
 	                    playerRack.addTile(tile);
@@ -72,16 +72,12 @@ public class GameController {
 	        }
 	    }
 	    
-	    public int jumpOverATile(int nbLetters) {
-	         return nbLetters += 1;
-	    }
-	    
 	    protected void placeATile(List<Move> moves, Direction direction, int row, int col, int nbLetters, Tile tile) throws IndexOutOfBoardException {
 	    	if (direction == Direction.HORIZONTAL) {
 	            Cell cell = gameBoard.cell(row, col + nbLetters);
 	            
 	            while(!cell.isEmpty()) {
-	                nbLetters = jumpOverATile(nbLetters);
+	                nbLetters += 1;
 	                cell = gameBoard.cell(row + nbLetters, col);
 	            }       
 	            moves.add(new Move(row, col + nbLetters, tile));
@@ -89,7 +85,7 @@ public class GameController {
 	            Cell cell = gameBoard.cell(row + nbLetters, col);
 	            
 	            while(!cell.isEmpty()) {
-	                nbLetters = jumpOverATile(nbLetters);
+	                nbLetters += 1;
 	                cell = gameBoard.cell(row + nbLetters, col);
 	            }
 	            moves.add(new Move(row + nbLetters, col, tile));

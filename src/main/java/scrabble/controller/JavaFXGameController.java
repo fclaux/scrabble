@@ -80,9 +80,7 @@ public class JavaFXGameController extends GameController {
 	}
 	
 	public void startGame() throws IndexOutOfBoardException {
-		
-		
-		
+
 		initialize(); 
 		
 		fillPlayerRack(player);
